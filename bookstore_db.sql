@@ -145,3 +145,5 @@ VALUES
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
+
+/* Testing to make sure I still remember how to use github */
