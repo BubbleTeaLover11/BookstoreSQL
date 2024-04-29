@@ -21,6 +21,7 @@ CREATE OR REPLACE TABLE `Publishers` (
   UNIQUE (`Company`)
 );
 
+-- DELETE AUTHOR and PUBLISHER if gone --
 CREATE OR REPLACE TABLE `Books` (
   `ISBN` INT NOT NULL AUTO_INCREMENT,
   `Title` VARCHAR(50) NOT NULL,
@@ -35,12 +36,12 @@ CREATE OR REPLACE TABLE `Books` (
   CONSTRAINT `fk_book_author`
     FOREIGN KEY (`AID`)
     REFERENCES `Authors` (`ID`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_book_publisher`
     FOREIGN KEY (`PID`)
     REFERENCES `Publishers` (`ID`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 );
 
@@ -54,6 +55,7 @@ CREATE OR REPLACE TABLE `Customers` (
   UNIQUE (`Email` ASC)
 );
 
+-- Want to set order customerID to NULL if updated --
 CREATE OR REPLACE TABLE `Orders` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `Date` DATETIME NOT NULL,
@@ -64,11 +66,12 @@ CREATE OR REPLACE TABLE `Orders` (
   CONSTRAINT `fk_order_customer1`
     FOREIGN KEY (`CID`)
     REFERENCES `Customers` (`ID`)
-    ON DELETE NO ACTION
+    ON DELETE SET NULL
     ON UPDATE NO ACTION
 );
 
-CREATE OR REPLACE TABLE `Order_Details` (
+-- Deleting from OrderDetails if customerID and ISBN is deleted --
+CREATE OR REPLACE TABLE `OrderDetails` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `BookISBN` INT NOT NULL,
   `OID` INT NOT NULL,
@@ -76,12 +79,12 @@ CREATE OR REPLACE TABLE `Order_Details` (
   CONSTRAINT `fk_order_detail_book`
     FOREIGN KEY (`BookISBN`)
     REFERENCES `Books` (`ISBN`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_detail_order1`
     FOREIGN KEY (`OID`)
     REFERENCES `Orders` (`ID`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 );
 
