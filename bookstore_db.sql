@@ -9,7 +9,6 @@ CREATE OR REPLACE TABLE `Authors` (
   `LastName` VARCHAR(45) NOT NULL,
   `Gender` VARCHAR(45) NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE (`ID`)
 );
 
 CREATE OR REPLACE TABLE `Publishers` (
@@ -17,7 +16,6 @@ CREATE OR REPLACE TABLE `Publishers` (
   `Company` VARCHAR(45) NOT NULL,
   `Years` INT NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE (`ID`),
   UNIQUE (`Company`)
 );
 
@@ -31,7 +29,6 @@ CREATE OR REPLACE TABLE `Books` (
   `AID` INT NOT NULL,
   `PID` INT NOT NULL,
   PRIMARY KEY (`ISBN`),
-  UNIQUE (`ISBN`),
   UNIQUE (`Title`),
   CONSTRAINT `fk_book_author`
     FOREIGN KEY (`AID`)
@@ -62,11 +59,10 @@ CREATE OR REPLACE TABLE `Orders` (
   `total_price` DECIMAL(7,2) NOT NULL,
   `CID` INT NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE (`ID`),
   CONSTRAINT `fk_order_customer1`
     FOREIGN KEY (`CID`)
     REFERENCES `Customers` (`ID`)
-    ON DELETE SET NULL
+    ON DELETE NO ACTION -- cannot be SET NULL since we have CID as NOT NULL --
     ON UPDATE NO ACTION
 );
 
@@ -75,6 +71,9 @@ CREATE OR REPLACE TABLE `OrderDetails` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `BookISBN` INT NOT NULL,
   `OID` INT NOT NULL,
+  `OrderQty` INT,
+  `UnitPrice` DECIMAL(5,2),
+  `LineTotal` DECIMAL(5,2),
   PRIMARY KEY (`ID`),
   CONSTRAINT `fk_order_detail_book`
     FOREIGN KEY (`BookISBN`)
@@ -144,7 +143,18 @@ VALUES
 (20240402, 10.53, (SELECT ID FROM Customers WHERE FirstName = 'Patrick' AND LastName = 'Kim')),
 (20240420, 83.60, (SELECT ID FROM Customers WHERE FirstName = 'Jane' And LastName = 'Smith'));
 
-/* ------- Order_Details Table with Join ------- */
+INSERT INTO OrderDetails (
+    BookISBN, OID, OrderQty, UnitPrice, LineTotal
+)
+VALUES
+((SELECT ISBN FROM Books WHERE Title = "The Three-Body Problem"),(SELECT ID FROM Orders WHERE ID = 1), 1, 10.59, 1*10.59),
+((SELECT ISBN FROM Books WHERE Title = "The Fury"),(SELECT ID FROM Orders WHERE ID = 1), 1, 16.19, 1*16.19),
+((SELECT ISBN FROM Books WHERE Title = "The Silent Patient"),(SELECT ID FROM Orders WHERE ID = 2), 1, 10.53, 1*10.53),
+((SELECT ISBN FROM Books WHERE Title = "Farenheit 451"),(SELECT ID FROM Orders WHERE ID = 2), 1, 8.36, 1*8.36),
+((SELECT ISBN FROM Books WHERE Title = "The Silent Patient"),(SELECT ID FROM Orders WHERE ID = 3), 1, 10.53, 1*10.53),
+((SELECT ISBN FROM Books WHERE Title = "Farenheit 451"),(SELECT ID FROM Orders WHERE ID = 4), 10, 8.36, 10*8.36);
+
+
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
