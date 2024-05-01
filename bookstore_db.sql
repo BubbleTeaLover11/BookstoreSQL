@@ -8,7 +8,7 @@ CREATE OR REPLACE TABLE `Authors` (
   `FirstName` VARCHAR(45) NOT NULL,
   `LastName` VARCHAR(45) NOT NULL,
   `Gender` VARCHAR(45) NULL,
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`ID`)
 );
 
 CREATE OR REPLACE TABLE `Publishers` (
@@ -99,7 +99,7 @@ VALUES
 ('Liu', 'Cixin', 'Male');
 
 INSERT INTO Publishers (
-    Company, Years
+    Company, Year
 )
 VALUES
 ('Scholastic Corporation', 1920),
