@@ -14,7 +14,7 @@ CREATE OR REPLACE TABLE `Authors` (
 CREATE OR REPLACE TABLE `Publishers` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `Company` VARCHAR(45) NOT NULL,
-  `Years` INT NOT NULL,
+  `Year` INT NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE (`Company`)
 );
