@@ -72,8 +72,8 @@ CREATE OR REPLACE TABLE `OrderDetails` (
   `BookISBN` INT NOT NULL,
   `OID` INT NOT NULL,
   `OrderQty` INT,
-  `UnitPrice` DECIMAL(5,2),
-  `LineTotal` DECIMAL(5,2),
+  `UnitPrice` DECIMAL(7,2),
+  `LineTotal` DECIMAL(7,2),
   PRIMARY KEY (`ID`),
   CONSTRAINT `fk_order_detail_book`
     FOREIGN KEY (`BookISBN`)
