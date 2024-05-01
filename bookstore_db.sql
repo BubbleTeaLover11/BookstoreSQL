@@ -100,7 +100,7 @@ VALUES
 ('Liu', 'Cixin', 'Male');
 
 INSERT INTO Publishers (
-    Company, Years
+    Company, Year
 )
 VALUES
 ('Scholastic Corporation', 1920),
