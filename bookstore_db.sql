@@ -9,6 +9,7 @@ CREATE OR REPLACE TABLE `Authors` (
   `LastName` VARCHAR(45) NOT NULL,
   `Gender` VARCHAR(45) NULL,
   PRIMARY KEY (`ID`),
+  UNIQUE ('ID')
 );
 
 CREATE OR REPLACE TABLE `Publishers` (
