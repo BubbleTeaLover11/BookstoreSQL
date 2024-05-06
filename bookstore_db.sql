@@ -1,3 +1,7 @@
+-- William Chen, Patrick Kim
+-- CS 340
+-- 5.1.2024
+
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
 
@@ -154,7 +158,6 @@ VALUES
 ((SELECT ISBN FROM Books WHERE Title = "Farenheit 451"),(SELECT ID FROM Orders WHERE ID = 2), 1, 8.36, 1*8.36),
 ((SELECT ISBN FROM Books WHERE Title = "The Silent Patient"),(SELECT ID FROM Orders WHERE ID = 3), 1, 10.53, 1*10.53),
 ((SELECT ISBN FROM Books WHERE Title = "Farenheit 451"),(SELECT ID FROM Orders WHERE ID = 4), 10, 8.36, 10*8.36);
-
 
 
 SET FOREIGN_KEY_CHECKS=1;
