@@ -57,7 +57,6 @@ CREATE OR REPLACE TABLE `Customers` (
 CREATE OR REPLACE TABLE `Orders` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `Date` DATETIME NOT NULL,
-  `TotalPrice` DECIMAL(7,2) NOT NULL,
   `CID` INT NOT NULL,
   PRIMARY KEY (`ID`),
   CONSTRAINT `fk_order_customer1`
@@ -136,13 +135,13 @@ VALUES
 (SELECT ID FROM Publishers WHERE Company = 'Macmillian Publishers'));
 
 INSERT INTO Orders (
-    Date, TotalPrice, CID
+    Date, CID
 )
 VALUES
-(20240323, 26.78, (SELECT ID FROM Customers WHERE FirstName = 'Patrick' AND LastName = 'Kim')),
-(20240331, 18.89, (SELECT ID FROM Customers WHERE FirstName = 'William' AND LastName = 'Chen')),
-(20240402, 10.53, (SELECT ID FROM Customers WHERE FirstName = 'Patrick' AND LastName = 'Kim')),
-(20240420, 83.60, (SELECT ID FROM Customers WHERE FirstName = 'Jane' And LastName = 'Smith'));
+(20240323, (SELECT ID FROM Customers WHERE FirstName = 'Patrick' AND LastName = 'Kim')),
+(20240331, (SELECT ID FROM Customers WHERE FirstName = 'William' AND LastName = 'Chen')),
+(20240402, (SELECT ID FROM Customers WHERE FirstName = 'Patrick' AND LastName = 'Kim')),
+(20240420, (SELECT ID FROM Customers WHERE FirstName = 'Jane' And LastName = 'Smith'));
 
 INSERT INTO OrderDetails (
     BookISBN, OID, OrderQty, UnitPrice, LineTotal

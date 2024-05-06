@@ -7,12 +7,13 @@ SELECT * FROM Customers;
 INSERT INTO Customers (FirstName, LastName, Email)
 VALUES (:FirstNameInput, :LastNameInput, :EmailInput);
 
-
+-- Delete A Customer
+DELETE FROM Customers WHERE ID = :CID_selected_from_browse_customers_page
 
 --ORDERS
 
 -- Get All Orders and the customer name  For Browse Orders Page
-SELECT Orders.ID, Date, TotalPrice, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS FullName
+SELECT Orders.ID, Date, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS FullName
 FROM Orders
     INNER JOIN Customers
     ON CID = Customers.ID;
