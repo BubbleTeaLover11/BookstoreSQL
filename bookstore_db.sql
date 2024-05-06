@@ -1,3 +1,7 @@
+-- William Chen, Patrick Kim
+-- CS 340
+-- 5.1.2024
+
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
 
@@ -73,7 +77,6 @@ CREATE OR REPLACE TABLE `OrderDetails` (
   `OID` INT NOT NULL,
   `OrderQty` INT,
   `UnitPrice` DECIMAL(7,2),
-  `LineTotal` DECIMAL(7,2),
   PRIMARY KEY (`ID`),
   CONSTRAINT `fk_order_detail_book`
     FOREIGN KEY (`BookISBN`)
@@ -144,16 +147,15 @@ VALUES
 (20240420, (SELECT ID FROM Customers WHERE FirstName = 'Jane' And LastName = 'Smith'));
 
 INSERT INTO OrderDetails (
-    BookISBN, OID, OrderQty, UnitPrice, LineTotal
+    BookISBN, OID, OrderQty, UnitPrice
 )
 VALUES
-((SELECT ISBN FROM Books WHERE Title = "The Three-Body Problem"),(SELECT ID FROM Orders WHERE ID = 1), 1, 10.59, 1*10.59),
-((SELECT ISBN FROM Books WHERE Title = "The Fury"),(SELECT ID FROM Orders WHERE ID = 1), 1, 16.19, 1*16.19),
-((SELECT ISBN FROM Books WHERE Title = "The Silent Patient"),(SELECT ID FROM Orders WHERE ID = 2), 1, 10.53, 1*10.53),
-((SELECT ISBN FROM Books WHERE Title = "Farenheit 451"),(SELECT ID FROM Orders WHERE ID = 2), 1, 8.36, 1*8.36),
-((SELECT ISBN FROM Books WHERE Title = "The Silent Patient"),(SELECT ID FROM Orders WHERE ID = 3), 1, 10.53, 1*10.53),
-((SELECT ISBN FROM Books WHERE Title = "Farenheit 451"),(SELECT ID FROM Orders WHERE ID = 4), 10, 8.36, 10*8.36);
-
+((SELECT ISBN FROM Books WHERE Title = "The Three-Body Problem"),(SELECT ID FROM Orders WHERE ID = 1), 1, 10.59),
+((SELECT ISBN FROM Books WHERE Title = "The Fury"),(SELECT ID FROM Orders WHERE ID = 1), 1, 16.19),
+((SELECT ISBN FROM Books WHERE Title = "The Silent Patient"),(SELECT ID FROM Orders WHERE ID = 2), 1, 10.53),
+((SELECT ISBN FROM Books WHERE Title = "Farenheit 451"),(SELECT ID FROM Orders WHERE ID = 2), 1, 8.36),
+((SELECT ISBN FROM Books WHERE Title = "The Silent Patient"),(SELECT ID FROM Orders WHERE ID = 3), 1, 10.53),
+((SELECT ISBN FROM Books WHERE Title = "Farenheit 451"),(SELECT ID FROM Orders WHERE ID = 4), 10, 8.36);
 
 
 SET FOREIGN_KEY_CHECKS=1;
