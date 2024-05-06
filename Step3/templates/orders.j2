@@ -11,14 +11,12 @@
         <thread>
         <tr>
             <th>Date</th>
-            <th>Total Price ($)</th>
             <th>Customer ID</th>
         </tr>
         <tbody>
         {% for item in orders %}
         <tr>
             <td>{{item['Date']}}</td>
-            <td>{{item['TotalPrice']}}</td>
             <td>{{item['CustomerID']}}</td>
         </tr>
         {% endfor %}
@@ -29,8 +27,7 @@
             <legend><strong>Add Order</strong></legend>
                 <fieldset class="fields">
                     <label> Date </label><input type="date" name="Date">
-                    <label> Total Price $</label><input type="number" name="TotalPrice" placeholder="0.00">
-                    <label> Customer ID </label><input type="number" step="0.01" name="CustomerID">
+                    <label> Customer ID </label><input type="number" name="CustomerID">
                 </fieldset>
                     <input class="btn" type="submit" id="addCustomer" value="Add Order">
                     <input class="btn" type="button" value="cancel" onClick="browseOrders()">

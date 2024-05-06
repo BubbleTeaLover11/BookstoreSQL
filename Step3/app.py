@@ -26,22 +26,18 @@ customers_from_app_py = [
 orders_from_app_py = [
     {
         "Date" : "2024-03-23",
-        "TotalPrice" : 26.78,
         "CustomerID" : 1
     },
     {
         "Date" : "2024-03-31",
-        "TotalPrice" : 18.89,
         "CustomerID" : 2
     },
     {
         "Date" : "2024-04-02",
-        "TotalPrice" : 10.53,
         "CustomerID" : 1
     },
     {
         "Date" : "2024-04-20",
-        "TotalPrice" : 83.60,
         "CustomerID" : 3
     }
 ]

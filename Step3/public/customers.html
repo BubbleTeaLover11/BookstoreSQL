@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        Customers
+    </title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+<main>
+    <h1>Customers Page</h1>
+    <p>This is the Customers page that shows the customers' full name and email.</p>
+    <h2>Navigation</h2>
+    <p>[ <a href="index.html">Home Page</a> | 
+    <a href="books.html">Book Collection</a> | 
+    <a href="publishers.html">Publishers</a> | 
+    <a href="authors.html">Authors</a> | 
+    <a href="customers.html">Customers |</a> 
+    <a href="orders.html">Orders</a> ]</p>
+    <div id="Customers">
+        <table border="1" cellpadding="5">
+            <thread>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>E-mail</th>
+            </tr>
+            <tbody>
+            <tr>
+                <td>Patrick</td>
+                <td>Kim</td>
+                <td>kimpatr@oregonstate.edu</td>
+            </tr>
+            <tr>
+                <td>William</td>
+                <td>Chen</td>
+                <td>chenwill@oregonstate.edu</td>
+            </tr>
+            <tr>
+                <td>Jane</td>
+                <td>Smith</td>
+                <td>jsmith@mail.com</td>
+            </tr>
+        </table>
+        <p>&nbsp;</p>
+        <div id="insert">
+            <form method="POST" id="addCustomer">
+                <legend><strong>Add Customer</strong></legend>
+                    <fieldset class="fields">
+                        <label> First Name </label><input type="text" name="FirstName">
+                        <label> Last Name </label><input type="text" name="LastName">
+                        <label> E-mail Address </label><input type="text" name="Email">
+                    </fieldset>
+                        <input class="btn" type="submit" id="addCustomer" value="Add Customer">
+                        <input class="btn" type="button" value="cancel" onClick="browseCustomers()">
+                </form>
+        </div>
+        <p>&nbsp;</p>
+        <div id="delete" style="display: block">
+            <form id="deleteCustomer">
+                <legend><strong>Delete Customer</strong></legend>
+                    <fieldset class="fields">
+                        <p>Are you sure you would like to delete this Customer?</p>
+                        <input type="hidden" name="customerID" id="deletecustomerID" value="3">
+                        <label><strong> ID:</strong></label> 3
+                        <label><strong>Name:</strong></label> Jane Smith
+                    </fieldset>
+                        <input class="btn" type="submit" id="deleteCustomer" value="Delete Customer">
+                        <input class="btn" type="button" value="cancel" onClick="browseCustomers()">
+                </form>
+        </div>
+    </div>
+</main>
+</html>
