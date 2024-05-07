@@ -53,6 +53,11 @@ SELECT Books.ISBN, Books.Title, OrderDetails.LineTotal, OrderDetails.OrderQty, O
         INNER JOIN Books ON OrderDetails.BookISBN = Books.ISBN
         WHERE OrderDetails.OID = 1;
 
+-- Associate a Book with an Order (M:M addition)
+INSERT INTO OrderDetails (BookISBN, OID, OrderQty, UnitPrice, LineTotal)
+    VALUES (:book_ISBN_selected_from_Order_details_list, :order_ID_selected_from_Order_details_list, :OrderQtyInput, 
+    (SELECT Price AS Uprice FROM Books WHERE :book_ISBN_selected_from_Order_details_list = ISBN) , :OrderQtyIpnut*Uprice)
+
 -- Update Order Details
 -- Subquery to retrieve book ID and Order ID
 UPDATE OrderDetails
