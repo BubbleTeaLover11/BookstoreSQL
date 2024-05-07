@@ -2,6 +2,8 @@
 -- CS340
 -- Date: 05/06/24
 
+---------------------------------------------------------
+-- CUSTOMERS
 -- Get All customers for Browse Customer Page
 SELECT * FROM Customers;
 
@@ -26,6 +28,10 @@ SELECT Orders.ID, Date, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS 
 FROM Orders
     INNER JOIN Customers
     ON CID = Customers.ID;
+
+-- Add New Order
+INSERT INTO Orders (Date, CID)
+VALUES (:DateInput, :CustomerIDfromDropDown)
 
 ---------------------------------------------------------
 --ORDER DETAILS
@@ -52,7 +58,13 @@ SELECT Books.ISBN, Books.Title, OrderDetails.LineTotal, OrderDetails.OrderQty, O
 UPDATE OrderDetails
 SET BookISBN=(SELECT ID FROM Books WHERE ID=2), OID=(SELECT ID FROM Orders WHERE ID=1), OrderQty=2, UnitPrice=2, LineTotal=OrderQty*UnitPrice
 WHERE ID=1;
--- Authors
+
+-- Dissassociate an Book from an Order (M:M deletion)
+DELETE FROM OrderDetails
+WHERE BookISBN = :book_ISBN_selected_from_Order_details_list AND OID = :order_ID_selected_from_Order_details_list;
+
+---------------------------------------------------------
+-- AUTHORS
 -- Getting Authors
 SELECT * FROM Authors;
 
@@ -60,7 +72,8 @@ SELECT * FROM Authors;
 INSERT INTO Authors (FirstName, LastName, Gender)
 VALUES (:FirstNameInput, :LastNameInput, :GenderInput);
 
--- Books
+---------------------------------------------------------
+-- BOOKS
 -- Getting Books
 -- Example of grabbing ISBN 1
 SELECT Books.ISBN AS ISBN, Books.Title AS Title, Books.Genre AS Genre, Books.Stock AS Stock, Books.Price AS Price, Author.FirstName, Author.LastName, Publishers.Company 
@@ -74,8 +87,9 @@ ORDER BY Books.ISBN desc;
 INSERT INTO Books (Title, Genre, Stock, Price, AID, PID)
 VALUES (:Title, :Genre, :Stock, :Price, (SELECT ID FROM Author WHERE FirstName = "Foo" and LastName = "Bar"), (SELECT ID FROM Publishers WHERE Company = "Foo"));
 
--- Publishers
--- Getting Authors
+---------------------------------------------------------
+-- PUBLISHERS
+-- Getting Publishers
 SELECT * FROM Publishers;
 
 -- Create Publisher
