@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        Order Details
+    </title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+<main>
+    <h1>Orders Page</h1>
+    <p>This is the Orders page that shows the Orders' date, total price and the Customer ID that is associated with the order.</p>
+    <h2>Navigation</h2>
+    <p>[ <a href="index.html">Home Page</a> | 
+    <a href="books.html">Book Collection</a> | 
+    <a href="publishers.html">Publishers</a> | 
+    <a href="authors.html">Authors</a> | 
+    <a href="customers.html">Customers</a> |
+    <a href="orders.html">Orders</a> |
+    <a href="orderDetails.html">Order Details</a> ]</p>
+    <div id="OrderDetails">
+        <table border="1" cellpadding="5">
+            <thread>
+            <tr>
+                <th>Book ISBN</th>
+                <th>Order ID</th>
+                <th>Order Quantity</th>
+                <th>Unit Price</th>
+                <th>Line Total</th>
+            </tr>
+            <tbody>
+            <tr>
+                <td>4</td>
+                <td>1</td>
+                <td>1</td>
+                <td>10.59</td>
+                <td>10.59</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>1</td>
+                <td>1</td>
+                <td>16.19</td>
+                <td>16.19</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>1</td>
+                <td>10.53</td>
+                <td>10.53</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>2</td>
+                <td>1</td>
+                <td>8.36</td>
+                <td>8.36</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>3</td>
+                <td>1</td>
+                <td>10.53</td>
+                <td>10.53</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>4</td>
+                <td>10</td>
+                <td>8.36</td>
+                <td>83.60</td>
+            </tr>
+        </table>
+        <p>&nbsp;</p>
+        <div id="insert">
+            <form method="POST" id="addOrderDetails">
+                <legend><strong>Add Order Details</strong></legend>
+                    <fieldset class="fields">
+                        <label> Book ISBN </label><input type="number" name="BookISBN">
+                        <label> Customer ID </label><input type="number" name="CustomerID">
+                        <label> Order Qty </label><input type="number" step=0.01 name="OrderQty">
+                    </fieldset>
+                        <input class="btn" type="submit" id="addOrderDetails" value="Add Order Details">
+                        <input class="btn" type="button" value="cancel" onClick="browseOrdersDetails()">
+                </form>
+        </div>
+        <p>&nbsp;</p>
+    </div>
+</main>
+</html>
