@@ -24,7 +24,7 @@
     <div id="Books">
         <table>
                 <caption>
-                    List of books
+                    List of Books
                 </caption>
             <thead>
                 <tr>
@@ -49,6 +49,27 @@
                 </tr>
             </tbody>
         </table>
+        <p>&nbsp;</p>
+        <div id="insert">
+            <form method="POST" id="addBook">
+                <legend><strong>Add Book</strong></legend>
+                    <fieldset class="fields">
+                        <label> Title: </label><input type="text" name="Title">
+                        <br>
+                        <label> Genre: </label><input type="text" name="Genre">
+                        <br>
+                        <label> Stock: </label><input type="text" name="Stock">
+                        <br>
+                        <label> Price: </label><input type="text" name="Price">
+                        <br>
+                        <label> Author Full Name: </label><input type="text" name="Author">
+                        <br>
+                        <label> Publishing Company: </label><input type="text" name="Publisher">
+                    </fieldset>
+                        <input class="btn" type="submit" id="addBook" value="Add Book">
+                        <input class="btn" type="button" value="cancel" onClick="browseBooks()">
+            </form>
+        </div>
     </div>
 </main>
 </html>

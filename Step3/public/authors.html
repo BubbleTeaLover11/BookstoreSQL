@@ -43,6 +43,21 @@
             </tr>
         </tbody>
         </table>
+        <p>&nbsp;</p>
+        <div id="insert">
+        <form method="POST" id="addAuthor">
+            <legend><strong>Add Author</strong></legend>
+                <fieldset class="fields">
+                    <label> First Name </label><input type="text" name="FirstName">
+                    <br>
+                    <label> Last Name </label><input type="text" name="LastName">
+                    <br>
+                    <label> Gender </label><input type="text" name="Gender">
+                </fieldset>
+                    <input class="btn" type="submit" id="addAuthor" value="Add Author">
+                    <input class="btn" type="button" value="cancel" onClick="browseAuthors()">
+        </form>
+        </div>
     </div>
 </main>
 </html>
