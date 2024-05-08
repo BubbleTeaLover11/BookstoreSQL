@@ -62,6 +62,21 @@
             </form>
         </div>
         <p>&nbsp;</p>
+        <div id="update">
+            <form method="POST" id="updateCustomer">
+                <legend><strong>Update Customer</strong></legend>
+                    <fieldset class="fields">
+                        <input type="hidden" name="customerID" id="updateCustomer">
+                        <label>ID:</label> 3
+                            <label> First Name </label><input type="text" name="FirstName">
+                            <label> Last Name </label><input type="text" name="LastName">
+                            <label> E-mail Address </label><input type="text" name="Email">
+                    </fieldset>
+                        <input class="btn" type="submit" id="updateSaveCustomer" value="Update Customer">
+                        <input class="btn" type="button" value="cancel" onClick="browseCustomers()">
+                </form>
+        </div>
+        <p>&nbsp;</p>
         <div id="delete" style="display: block">
             <form id="deleteCustomer">
                 <legend><strong>Delete Customer</strong></legend>
