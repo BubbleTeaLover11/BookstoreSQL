@@ -52,7 +52,12 @@
                 <legend><strong>Add Order</strong></legend>
                     <fieldset class="fields">
                         <label> Date </label><input type="date" name="Date">
-                        <label> Customer ID </label><input type="number" name="CustomerID">
+                        <label> Customer ID </label><select name="CustomerID">
+                            <option value="0">&nbsp;</option>
+                                <option value="1"> 1. Patrick Kim</option>
+                                <option value="2"> 2. William Chen</option>
+                                <option value="3" selected> 3. Jane Smith</option>
+                            </select>
                     </fieldset>
                         <input class="btn" type="submit" id="addCustomer" value="Add Order">
                         <input class="btn" type="button" value="cancel" onClick="browseOrders()">
