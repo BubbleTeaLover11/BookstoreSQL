@@ -12,14 +12,14 @@ INSERT INTO Customers (FirstName, LastName, Email)
 VALUES (:FirstNameInput, :LastNameInput, :EmailInput);
 
 -- Delete A Customer
-DELETE FROM Customers WHERE ID = :CID_selected_from_browse_customers_page
+DELETE FROM Customers WHERE ID = :CustomerIDfromDropDown;
 
 -- Update a Customer
 -- No update to CID at the moment
 -- Update based on ID
 UPDATE Customers
 SET FirstName="Foo", LastName="Bar", Email="Foobar@gmail.com"
-WHERE ID=1
+WHERE ID = :CustomerIDfromDropDown;
 
 ---------------------------------------------------------
 --ORDERS

@@ -81,6 +81,13 @@
             <form id="deleteCustomer">
                 <legend><strong>Delete Customer</strong></legend>
                     <fieldset class="fields">
+                        <select name="deleteCustomerID">
+                            <optgroup>
+                                <option value="3">Jane Smith</option>
+                                <option value="1">Patrick Kim</option>
+                                <option value="2">William Chen</option>
+                            </optgroup>
+                        </select>
                         <p>Are you sure you would like to delete this Customer?</p>
                         <input type="hidden" name="customerID" id="deletecustomerID" value="3">
                         <p><strong> ID:</strong> 3</p>
@@ -95,6 +102,13 @@
                 <legend><strong>Update Customer</strong></legend>
                 <fieldset class="fields">
                     <p>Update Customer Information</p>
+                    <select name="deleteCustomerID">
+                        <optgroup>
+                            <option value="3">Jane Smith</option>
+                            <option value="1">Patrick Kim</option>
+                            <option value="2">William Chen</option>
+                        </optgroup>
+                    </select>
                     <input type="hidden" name="CustomerID" id="updatecustomerID" value="3">
                     <p><strong> ID:</strong> 3</p>
                     <label for="name">Name:</label>
