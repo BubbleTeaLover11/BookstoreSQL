@@ -52,12 +52,14 @@
                 <legend><strong>Add Customer</strong></legend>
                     <fieldset class="fields">
                         <label> First Name </label><input type="text" name="FirstName">
+                        <br>
                         <label> Last Name </label><input type="text" name="LastName">
+                        <br>
                         <label> E-mail Address </label><input type="text" name="Email">
                     </fieldset>
                         <input class="btn" type="submit" id="addCustomer" value="Add Customer">
                         <input class="btn" type="button" value="cancel" onClick="browseCustomers()">
-                </form>
+            </form>
         </div>
         <p>&nbsp;</p>
         <div id="delete" style="display: block">
@@ -66,12 +68,29 @@
                     <fieldset class="fields">
                         <p>Are you sure you would like to delete this Customer?</p>
                         <input type="hidden" name="customerID" id="deletecustomerID" value="3">
-                        <label><strong> ID:</strong></label> 3
-                        <label><strong>Name:</strong></label> Jane Smith
+                        <p><strong> ID:</strong> 3</p>
+                        <p><strong>Name:</strong> Jane Smith</p>
                     </fieldset>
                         <input class="btn" type="submit" id="deleteCustomer" value="Delete Customer">
-                        <input class="btn" type="button" value="cancel" onClick="browseCustomers()">
-                </form>
+                        <input class="btn" type="button" value="Cancel" onClick="browseCustomers()">
+            </form>
+        </div>
+        <div id="update">
+            <form id="updateCustomer">
+                <legend><strong>Update Customer</strong></legend>
+                <fieldset class="fields">
+                    <p>Update Customer Information</p>
+                    <input type="hidden" name="CustomerID" id="updatecustomerID" value="3">
+                    <p><strong> ID:</strong> 3</p>
+                    <label for="name">Name:</label>
+                    <input id="name" type="textbox" placeholder="Jane Smith">
+                    <br>
+                    <label for="email">Email:</label>
+                    <input id="email" type="email" placeholder="jsmith@mail.com">
+                </fieldset>
+                <input class="btn" type="submit" id="updateCustomer" value="Update Customer">
+                <input class="btn" type="button" value="Cancel" onClick="browseCustomers()">
+            </form>
         </div>
     </div>
 </main>

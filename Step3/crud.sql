@@ -61,7 +61,7 @@ INSERT INTO OrderDetails (BookISBN, OID, OrderQty, UnitPrice, LineTotal)
 -- Update Order Details
 -- Subquery to retrieve book ID and Order ID
 UPDATE OrderDetails
-SET BookISBN=(SELECT ID FROM Books WHERE ID=2), OID=(SELECT ID FROM Orders WHERE ID=1), OrderQty=2, UnitPrice=2, LineTotal=OrderQty*UnitPrice
+SET BookISBN=(SELECT ISBN FROM Books WHERE ID=2), OID=(SELECT ID FROM Orders WHERE ID=1), OrderQty=2, UnitPrice=2, LineTotal=OrderQty*UnitPrice
 WHERE ID=1;
 
 -- Dissassociate an Book from an Order (M:M deletion)
@@ -90,7 +90,7 @@ ORDER BY Books.ISBN desc;
 
 -- Create Book
 INSERT INTO Books (Title, Genre, Stock, Price, AID, PID)
-VALUES (:Title, :Genre, :Stock, :Price, (SELECT ID FROM Author WHERE FirstName = "Foo" and LastName = "Bar"), (SELECT ID FROM Publishers WHERE Company = "Foo"));
+VALUES (:TitleInput, :GenreInput, :StockInput, :PriceInput, (SELECT ID FROM Author WHERE FirstName = "Foo" and LastName = "Bar"), (SELECT ID FROM Publishers WHERE Company = "Foo"));
 
 ---------------------------------------------------------
 -- PUBLISHERS

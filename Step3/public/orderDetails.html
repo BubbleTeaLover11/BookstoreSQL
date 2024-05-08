@@ -81,7 +81,9 @@
                 <legend><strong>Add Order Details</strong></legend>
                     <fieldset class="fields">
                         <label> Book ISBN </label><input type="number" name="BookISBN">
+                        <br>
                         <label> Customer ID </label><input type="number" name="CustomerID">
+                        <br>
                         <label> Order Qty </label><input type="number" step=0.01 name="OrderQty">
                     </fieldset>
                         <input class="btn" type="submit" id="addOrderDetails" value="Add Order Details">
@@ -89,6 +91,35 @@
                 </form>
         </div>
         <p>&nbsp;</p>
+        <div id="delete">
+            <form method="POST" id="deleteOrderDetails">
+                <legend><strong>Add Order Details</strong></legend>
+                    <fieldset class="fields">
+                        <p> Order Details ID: 1</p>
+                        <p> Order ID: 1</p>
+                        <p> Book ISBN: 4</p>
+                    </fieldset>
+                        <input class="btn" type="submit" id="deleteOrderDetails" value="Delete Order Details">
+                        <input class="btn" type="button" value="cancel" onClick="browseOrdersDetails()">
+                </form>
+        </div>
+        <p>&nbsp;</p>
+        <div id="update">
+            <form method="POST" id="addOrderDetails">
+                <legend><strong>Add Order Details</strong></legend>
+                    <fieldset class="fields">
+                        <label> Order ID </label><input type="number" name="CustomerID" placeholder="1">
+                        <br>
+                        <label> Book ISBN </label><input type="number" name="ISBN" placeholder="4">
+                        <br>
+                        <label> Order Quantity </label><input type="number" name="OrderQty" placeholder="1">
+                        <br>
+                        <label> Unit Price </label><input type="number" name="UnitPrice" placeholder="10.59">
+                    </fieldset>
+                        <input class="btn" type="submit" id="addOrderDetails" value="Update Order Details">
+                        <input class="btn" type="button" value="cancel" onClick="browseOrdersDetails()">
+                </form>
+        </div>
     </div>
 </main>
 </html>
