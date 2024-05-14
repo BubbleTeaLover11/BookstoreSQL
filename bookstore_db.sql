@@ -61,12 +61,12 @@ CREATE OR REPLACE TABLE `Customers` (
 CREATE OR REPLACE TABLE `Orders` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `Date` DATETIME NOT NULL,
-  `CID` INT NOT NULL,
+  `CID` INT,
   PRIMARY KEY (`ID`),
   CONSTRAINT `fk_order_customer1`
     FOREIGN KEY (`CID`)
     REFERENCES `Customers` (`ID`)
-    ON DELETE NO ACTION -- cannot be SET NULL since we have CID as NOT NULL --
+    ON DELETE SET NULL -- cannot be SET NULL since we have CID as NOT NULL --
     ON UPDATE NO ACTION
 );
 
@@ -87,7 +87,7 @@ CREATE OR REPLACE TABLE `OrderDetails` (
   CONSTRAINT `fk_order_detail_order1`
     FOREIGN KEY (`OID`)
     REFERENCES `Orders` (`ID`)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE NO ACTION
 );
 
