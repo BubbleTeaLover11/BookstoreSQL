@@ -82,12 +82,12 @@ CREATE OR REPLACE TABLE `OrderDetails` (
   CONSTRAINT `fk_order_detail_book`
     FOREIGN KEY (`BookISBN`)
     REFERENCES `Books` (`ISBN`)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_detail_order1`
     FOREIGN KEY (`OID`)
     REFERENCES `Orders` (`ID`)
-    ON DELETE SET NULL
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 );
 
