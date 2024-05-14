@@ -66,15 +66,15 @@ CREATE OR REPLACE TABLE `Orders` (
   CONSTRAINT `fk_order_customer1`
     FOREIGN KEY (`CID`)
     REFERENCES `Customers` (`ID`)
-    ON DELETE SET NULL -- cannot be SET NULL since we have CID as NOT NULL --
+    ON DELETE SET NULL
     ON UPDATE NO ACTION
 );
 
 -- Deleting from OrderDetails if customerID and ISBN is deleted --
 CREATE OR REPLACE TABLE `OrderDetails` (
   `ID` INT NOT NULL AUTO_INCREMENT,
-  `BookISBN` INT NOT NULL,
-  `OID` INT NOT NULL,
+  `BookISBN` INT,
+  `OID` INT,
   `OrderQty` INT,
   `UnitPrice` DECIMAL(7,2),
   `LineTotal` DECIMAL(7,2),
