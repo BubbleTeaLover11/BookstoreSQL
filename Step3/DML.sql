@@ -85,8 +85,7 @@ SELECT Books.ISBN AS ISBN, Books.Title AS Title, Books.Genre AS Genre, Books.Sto
     FROM Books
         INNER JOIN Authors ON Authors.ID = Books.AID
         INNER JOIN Publishers ON Publishers.ID = Books.PID
-        WHERE Books.ISBN = 1
-ORDER BY Books.ISBN desc;
+    WHERE Books.ISBN = 1;
 
 -- Create Book
 INSERT INTO Books (Title, Genre, Stock, Price, AID, PID)
