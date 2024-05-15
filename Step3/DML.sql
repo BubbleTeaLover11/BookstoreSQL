@@ -81,7 +81,7 @@ VALUES (:FirstNameInput, :LastNameInput, :GenderInput);
 -- BOOKS
 -- Getting Books
 -- Example of grabbing ISBN 1
-SELECT Books.ISBN AS ISBN, Books.Title AS Title, Books.Genre AS Genre, Books.Stock AS Stock, Books.Price AS Price, Author.FirstName, Author.LastName, Publishers.Company 
+SELECT Books.ISBN AS ISBN, Books.Title AS Title, Books.Genre AS Genre, Books.Stock AS Stock, Books.Price AS Price, Author.FirstName AS First Name, Author.LastName AS Last Name, Publishers.Company AS Publishing Company
     FROM Books
         INNER JOIN Authors ON Authors.ID = Books.AID
         INNER JOIN Publishers ON Publishers.ID = Books.PID
