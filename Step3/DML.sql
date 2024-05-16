@@ -5,7 +5,7 @@
 ---------------------------------------------------------
 -- CUSTOMERS
 -- Get All customers for Browse Customer Page
-SELECT * FROM Customers;
+SELECT FirstName AS First Name, LastName AS Last Name, Email AS E-mail FROM Customers;
 
 -- Add new Customer
 INSERT INTO Customers (FirstName, LastName, Email)
@@ -24,7 +24,7 @@ WHERE ID = :CustomerIDfromDropDown;
 ---------------------------------------------------------
 --ORDERS
 -- Get All Orders and the customer name  For Browse Orders Page
-SELECT Orders.ID, Date, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS FullName
+SELECT Orders.ID AS OrderID, Date, CID as Customer ID
 FROM Orders
     INNER JOIN Customers
     ON CID = Customers.ID;
@@ -36,10 +36,10 @@ VALUES (:DateInput, :CustomerIDfromDropDown)
 ---------------------------------------------------------
 --ORDER DETAILS
 -- Show All OrderDetails and show Order Id, Book Title, and Unit Price
-SELECT OrderDetails.OID, Books.title, OrderDetails.UnitPrice
+SELECT Books.ISBN, OrderDetails.OID, OrderDetails.OrderQty AS Order Quantity, OrderDetails.UnitPrice AS Unit Price, (Unit Price * Quantity) AS LineTotal
     FROM OrderDetails
         INNER JOIN Books ON OrderDetails.BookISBN = Books.ISBN
-        ORDER BY OrderDetails.OID, Books.title;
+        ORDER BY OrderDetails.OID, Books.ISBN;
 
 -- Show Invoice Slip Data (Filtered by Order, Currently showing OID = 1)
 -- Header 
@@ -71,7 +71,7 @@ WHERE BookISBN = :book_ISBN_selected_from_Order_details_list AND OID = :order_ID
 ---------------------------------------------------------
 -- AUTHORS
 -- Getting Authors
-SELECT * FROM Authors;
+SELECT ID AS Author ID, FirstName as First Name, LastName as Last Name, Gender FROM Authors;
 
 -- Create Author
 INSERT INTO Authors (FirstName, LastName, Gender)
@@ -81,12 +81,11 @@ VALUES (:FirstNameInput, :LastNameInput, :GenderInput);
 -- BOOKS
 -- Getting Books
 -- Example of grabbing ISBN 1
-SELECT Books.ISBN AS ISBN, Books.Title AS Title, Books.Genre AS Genre, Books.Stock AS Stock, Books.Price AS Price, Author.FirstName, Author.LastName, Publishers.Company 
+SELECT Books.ISBN AS ISBN, Books.Title AS Title, Books.Genre AS Genre, Books.Stock AS Stock, Books.Price AS Price, CONCAT(Author.FirstName, '', Author.LastName) Publishers.Company AS Publisher
     FROM Books
         INNER JOIN Authors ON Authors.ID = Books.AID
         INNER JOIN Publishers ON Publishers.ID = Books.PID
-        WHERE Books.ISBN = 1
-ORDER BY Books.ISBN desc;
+    WHERE Books.ISBN = 1;
 
 -- Create Book
 INSERT INTO Books (Title, Genre, Stock, Price, AID, PID)
@@ -95,7 +94,7 @@ VALUES (:TitleInput, :GenreInput, :StockInput, :PriceInput, (SELECT ID FROM Auth
 ---------------------------------------------------------
 -- PUBLISHERS
 -- Getting Publishers
-SELECT * FROM Publishers;
+SELECT ID AS Publisher ID, Company, Year as Year Founded  FROM Publishers;
 
 -- Create Publisher
 INSERT INTO Publishers (Company, Year)

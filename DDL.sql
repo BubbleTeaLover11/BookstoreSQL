@@ -7,6 +7,7 @@ SET AUTOCOMMIT = 0;
 
 /* --------------------- CREATE ------------------------ */
 
+-- AUTHORS --
 CREATE OR REPLACE TABLE `Authors` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `FirstName` VARCHAR(45) NOT NULL,
@@ -16,6 +17,7 @@ CREATE OR REPLACE TABLE `Authors` (
   UNIQUE ('ID')
 );
 
+-- PUBLISHERS --
 CREATE OR REPLACE TABLE `Publishers` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `Company` VARCHAR(45) NOT NULL,
@@ -24,7 +26,9 @@ CREATE OR REPLACE TABLE `Publishers` (
   UNIQUE (`Company`)
 );
 
+-- BOOKS --
 -- DELETE AUTHOR and PUBLISHER if gone --
+-- If no Author and no Publisher, then no book can exist --
 CREATE OR REPLACE TABLE `Books` (
   `ISBN` INT NOT NULL AUTO_INCREMENT,
   `Title` VARCHAR(50) NOT NULL,
@@ -47,6 +51,7 @@ CREATE OR REPLACE TABLE `Books` (
     ON UPDATE NO ACTION
 );
 
+-- CUSTOMERS --
 CREATE OR REPLACE TABLE `Customers` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `FirstName` VARCHAR(45) NOT NULL,
@@ -57,24 +62,28 @@ CREATE OR REPLACE TABLE `Customers` (
   UNIQUE (`Email` ASC)
 );
 
+-- ORDERS --
 -- Want to set order customerID to NULL if updated --
+-- Not all orders require a customer in the DB --
 CREATE OR REPLACE TABLE `Orders` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `Date` DATETIME NOT NULL,
-  `CID` INT NOT NULL,
+  `CID` INT,
   PRIMARY KEY (`ID`),
   CONSTRAINT `fk_order_customer1`
     FOREIGN KEY (`CID`)
     REFERENCES `Customers` (`ID`)
-    ON DELETE NO ACTION -- cannot be SET NULL since we have CID as NOT NULL --
+    ON DELETE SET NULL
     ON UPDATE NO ACTION
 );
 
--- Deleting from OrderDetails if customerID and ISBN is deleted --
+-- ORDERDETAILS --
+-- Deleting from OrderDetails if OrderID is deleted --
+-- Setting to NULL if book doesn't exist anymore to keep record of transaction --
 CREATE OR REPLACE TABLE `OrderDetails` (
   `ID` INT NOT NULL AUTO_INCREMENT,
-  `BookISBN` INT NOT NULL,
-  `OID` INT NOT NULL,
+  `BookISBN` INT,
+  `OID` INT,
   `OrderQty` INT,
   `UnitPrice` DECIMAL(7,2),
   `LineTotal` DECIMAL(7,2),
@@ -82,7 +91,7 @@ CREATE OR REPLACE TABLE `OrderDetails` (
   CONSTRAINT `fk_order_detail_book`
     FOREIGN KEY (`BookISBN`)
     REFERENCES `Books` (`ISBN`)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_detail_order1`
     FOREIGN KEY (`OID`)
@@ -161,5 +170,3 @@ VALUES
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
-
-/* Testing to make sure I still remember how to use github */
