@@ -13,8 +13,7 @@ CREATE OR REPLACE TABLE `Authors` (
   `FirstName` VARCHAR(45) NOT NULL,
   `LastName` VARCHAR(45) NOT NULL,
   `Gender` VARCHAR(45) NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE ('ID')
+  PRIMARY KEY (`ID`)
 );
 
 -- PUBLISHERS --
@@ -58,7 +57,6 @@ CREATE OR REPLACE TABLE `Customers` (
   `LastName` VARCHAR(45) NOT NULL,
   `Email` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE (`ID`),
   UNIQUE (`Email` ASC)
 );
 
