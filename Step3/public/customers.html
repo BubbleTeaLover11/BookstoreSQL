@@ -62,6 +62,31 @@
             </form>
         </div>
         <p>&nbsp;</p>
+        <div id="update">
+            <form method="PUT" id="updateCustomer">
+                <legend><strong>Update Existing Customer</strong></legend>
+                <fieldset class="fields">
+                    <p>Update Customer Information</p>
+                    <select name="updateCustomerID">
+                        <optgroup>
+                            <option value="3">Jane Smith</option>
+                            <option value="1">Patrick Kim</option>
+                            <option value="2">William Chen</option>
+                        </optgroup>
+                    </select>
+                    <input type="hidden" name="CustomerID" id="updatecustomerID" value="3">
+                    <p><strong> ID:</strong> 3</p>
+                    <label for="name">Name:</label>
+                    <input id="name" type="textbox" placeholder="Jane Smith">
+                    <br>
+                    <label for="email">Email:</label>
+                    <input id="email" type="email" placeholder="jsmith@mail.com">
+                </fieldset>
+                <input class="btn" type="submit" id="updateCustomer" value="Update Customer">
+                <input class="btn" type="button" value="Cancel" onClick="browseCustomers()">
+            </form>
+        </div>
+        <p>&nbsp;</p>
         <div id="delete" style="display: block">
             <form id="deleteCustomer">
                 <legend><strong>Delete Existing Customer</strong></legend>
@@ -80,30 +105,6 @@
                     </fieldset>
                         <input class="btn" type="submit" id="deleteCustomer" value="Delete Customer">
                         <input class="btn" type="button" value="Cancel" onClick="browseCustomers()">
-            </form>
-        </div>
-        <div id="update">
-            <form id="updateCustomer">
-                <legend><strong>Update Existing Customer</strong></legend>
-                <fieldset class="fields">
-                    <p>Update Customer Information</p>
-                    <select name="deleteCustomerID">
-                        <optgroup>
-                            <option value="3">Jane Smith</option>
-                            <option value="1">Patrick Kim</option>
-                            <option value="2">William Chen</option>
-                        </optgroup>
-                    </select>
-                    <input type="hidden" name="CustomerID" id="updatecustomerID" value="3">
-                    <p><strong> ID:</strong> 3</p>
-                    <label for="name">Name:</label>
-                    <input id="name" type="textbox" placeholder="Jane Smith">
-                    <br>
-                    <label for="email">Email:</label>
-                    <input id="email" type="email" placeholder="jsmith@mail.com">
-                </fieldset>
-                <input class="btn" type="submit" id="updateCustomer" value="Update Customer">
-                <input class="btn" type="button" value="Cancel" onClick="browseCustomers()">
             </form>
         </div>
     </div>
