@@ -22,10 +22,33 @@ def root():
 
 @app.route('/orderdetails')
 def orderdetails():
-    query = "SELECT * FROM orderdetails;"
-    cursor = db.execute_query(db_connection=db_connection, query=query)
-    results = cursor.fetchall()
-    return render_template("orderdetails.j2", order_details_results = results)
+    query = "SELECT BookISBN, OID, OrderQty, UnitPrice, LineTotal FROM OrderDetails"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    order_details_result = cur.fetchall()
+    return render_template("orderdetails.j2", order_details = order_details)
+
+@app.route('/createorderdetails')
+def create_order_detail():
+    if not BookISBN and not OID:
+        return redirect("/orderdetails")
+    if not BookISBN:
+        query = "INSERT INTO OrderDetails (OID, OrderQty, UnitPrice, LineTotal) VALUES (%s, 0, 0, 0)"
+        cur = mysql.connection.cursor()
+        cur.execute(query, (OID, OrderQty, UnitPrice, LineTotal))
+        mysql.connection.commit()
+    elif not OID:
+        query = "INSERT INTO OrderDetails (BookISBN, OrderQty, UnitPrice, LineTotal) VALUES (%s, %s, (SELECT Price FROM Books WHERE BookISBN = BookISBN), UnitPrice * LineTotal)"
+        cur = mysql.connection.cursor()
+        cur.execute(query, (OID, OrderQty, UnitPrice, LineTotal))
+        mysql.connection.commit()  
+    else:
+        query = "INSERT INTO OrderDetails (BookISBN, OID, OrderQty, UnitPrice, LineTotal) VALUES (%s, %s, %s, (SELECT Price FROM Books WHERE BookISBN = BookISBN), UnitPrice * LineTotal)"
+        cur = mysql.connection.cursor()
+        cur.execute(query, (OID, OrderQty, UnitPrice, LineTotal))
+        mysql.connection.commit()
+    return redirect("/orderdetails")
+    
 
 # Listener
 if __name__ == "__main__":

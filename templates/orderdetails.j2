@@ -8,8 +8,13 @@
         <th>Line Total</th>
     </tr>
     <tbody>
-    {% for item in 
+    {% for item in order_details %}
     <tr>
-
+        <td>{{item['BookISBN']}}</td>
+        <td>{{item['OID']}}</td>
+        <td>{{item['OrderQty']}}</td>
+        <td>{{item['UnitPrice']}}</td>
+        <td>{{item['LineTotal']}}</td>
     </tr>
+    {% endfor %}
 </table>
