@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        Book Collection
+    </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<main>
+    <h1>Books Page</h1>
+    <p>This is the Books page that shows the books' ISBN, title, genre, stock, price, author's full name, and publisher</p>
+    <h2>Navigation</h2>
+    <p>[ <a href="index.html">Home Page</a> | 
+        <a href="books.html">Book Collection</a> | 
+        <a href="publishers.html">Publishers</a> | 
+        <a href="authors.html">Authors</a> | 
+        <a href="customers.html">Customers</a> | 
+        <a href="orders.html">Orders</a> |
+        <a href="orderDetails.html">Order Details</a> ]</p>
+    <div id="Books">
+        <table>
+                <caption>
+                    List of Books
+                </caption>
+            <thead>
+                <tr>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Publisher</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Harry Potter and the Sorcerer's Stone</td>
+                    <td>Fantasy</td>
+                    <td>50</td>
+                    <td>7.00</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>The Silent Patient</td>
+                    <td>Thriller</td>
+                    <td>123</td>
+                    <td>10.53</td>
+                    <td>2</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Farenheit 451</td>
+                    <td>Sci-Fi</td>
+                    <td>451</td>
+                    <td>8.36</td>
+                    <td>3</td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <div id="insert">
+            <form method="POST" id="addBook">
+                <legend><strong>Add New Book</strong></legend>
+                    <fieldset class="fields">
+                        <label> Title: </label><input type="text" name="Title">
+                        <br>
+                        <label> Genre: </label><input type="text" name="Genre">
+                        <br>
+                        <label> Stock: </label><input type="text" name="Stock">
+                        <br>
+                        <label> Price: </label><input type="text" name="Price">
+                        <br>
+                        <label> Author Full Name: </label><input type="text" name="Author">
+                        <br>
+                        <label> Publishing Company: </label><input type="text" name="Publisher">
+                    </fieldset>
+                        <input class="btn" type="submit" id="addBook" value="Add Book">
+                        <input class="btn" type="button" value="cancel" onClick="browseBooks()">
+            </form>
+        </div>
+    </div>
+</main>
+</html>
