@@ -57,6 +57,7 @@ def create_order_detail():
         mysql.connection.commit()
     return redirect("/orderdetails")
     
+#Test
 
 # Listener
 if __name__ == "__main__":
