@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>Order Details</title>
+</head>
+<body>
+    <h1>Order Details Page</h1>
+    <p>This is the Order Details Page It shows the details of an order including the book, order ID, order quantity, unit price, and line total.</p>
+    <h2>Navigation</h2>
+    <table>
+    <thead>
+    <tr>
+        <!-- Iterate through each key in the first entry to get the
+        column name -->
+        {% for key in data[0].keys() %}
+
+        <!-- Create a <th> tag with the key inside of it, this will be
+        our header row -->
+        <th>{{ key }}</th>
+
+        <!-- End of this for loop -->
+        {% endfor %}
+    </tr>
+    <tbody>
+
+    <!-- Now, iterate through every person in bsg_people -->
+    {% for item in data %}
+    <tr>
+        <!-- Then iterate through every key in the current person dictionary -->
+        {% for key in item.keys() %}
+
+        <!-- Create a <td> element with the value of that key in it -->
+        <td>{{item[key]}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>

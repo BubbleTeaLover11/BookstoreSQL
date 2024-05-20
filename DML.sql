@@ -36,7 +36,7 @@ VALUES (:DateInput, :CustomerIDfromDropDown)
 ---------------------------------------------------------
 --ORDER DETAILS
 -- Show All OrderDetails and show Order Id, Book Title, and Unit Price
-SELECT Books.ISBN, OrderDetails.OID, OrderDetails.OrderQty AS Order Quantity, OrderDetails.UnitPrice AS Unit Price, (Unit Price * Quantity) AS LineTotal
+SELECT Books.ISBN, OrderDetails.OID, OrderDetails.OrderQty AS `Order Quantity`, OrderDetails.UnitPrice AS `Unit Price`, (OrderDetails.UnitPrice * OrderDetails.OrderQty) AS LineTotal
     FROM OrderDetails
         INNER JOIN Books ON OrderDetails.BookISBN = Books.ISBN
         ORDER BY OrderDetails.OID, Books.ISBN;
