@@ -32,10 +32,6 @@ def order_details():
     return render_template("orderDetails.j2", OrderDetails=results)
     # return results
 
-# @app.route('/customers')
-# def customers():
-#     return render_template("customers.j2", customers = customers_from_app_py)
-
 @app.route('/createorderdetails')
 def create_order_detail():
     if not BookISBN and not OID:
@@ -56,19 +52,8 @@ def create_order_detail():
         cur.execute(query, (OID, OrderQty, UnitPrice, LineTotal))
         mysql.connection.commit()
     return redirect("/orderdetails")
-    
-#Test
 
-# Listener
-if __name__ == "__main__":
 
-    #Start the app on port 3000, it will be different once hosted
-    app.run(port = 9001, debug = True)
-# @app.route('/orders')
-# def orders():
-#     return render_template("orders.j2", orders = orders_from_app_py)
-
-#debug = True will automatically refresh app so we don't have to keep rerun script
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 3434))
     
