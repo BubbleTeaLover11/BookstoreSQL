@@ -43,7 +43,7 @@ SELECT Books.ISBN, OrderDetails.OID, OrderDetails.OrderQty AS `Order Quantity`, 
 
 -- Show Invoice Slip Data (Filtered by Order, Currently showing OID = 1)
 -- Header 
-SELECT Orders.ID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS FullName, CURDATE() AS CurrentDate, Orders.TotalPrice
+SELECT Orders.ID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS FullName, CURDATE() AS CurrentDate
     FROM Customers
         INNER JOIN Orders ON Customers.ID = Orders.CID
         WHERE Orders.ID = 1;

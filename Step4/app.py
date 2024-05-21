@@ -48,6 +48,21 @@ def orderdetails():
         # render edit_orderDetails page passing our query data and title data to the edit_orderDetails template
         return render_template("orderDetails.j2", data=data, titles=title_data)
 
+# route to see customer Invoice    
+@app.route('/orderdetails/<int:id>', methods=["GET"])
+def custorderdetails(id):
+    query = "SELECT Orders.ID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS FullName, CURDATE() AS CurrentDate FROM Customers INNER JOIN Orders ON Customers.ID = Orders.CID WHERE Orders.ID = %s" % (id)
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    data1 = cur.fetchall()
+
+    query2 = "SELECT Books.ISBN, Books.Title, OrderDetails.OrderQty, OrderDetails.UnitPrice, OrderDetails.LineTotal FROM OrderDetails INNER JOIN Books ON OrderDetails.BookISBN = Books.ISBN WHERE OrderDetails.OID = %s" % (id)
+    cur = mysql.connection.cursor()
+    cur.execute(query2)
+    data2 = cur.fetchall()
+    
+    return render_template("custoderdetails.j2", headerdata=data1, bodydata=data2)
+
 @app.route("/edit_orderdetails/<int:id>", methods=["POST","GET"])
 def edit_orderdetails(id):
     if request.method == "GET":
@@ -73,8 +88,20 @@ def edit_orderdetails(id):
             ISBN = request.form["title"] # displays as title
             OID = request.form["OID"]
             OrderQty = request.form["OrderQty"]
-            UnitPrice = request.form["UnitPrice"] # hidden
-            LineTotal = request.form["LineTotal"] # hidden
+
+            # UnitPrice = request.form["UnitPrice"] # hidden
+            # LineTotal = request.form["LineTotal"] # hidden
+            
+            # Fetch UnitPrice from Books table based on ISBN
+            query = "SELECT Price FROM Books WHERE ISBN = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (ISBN,))
+            book = cur.fetchone()
+            UnitPrice = book['Price']
+
+            # Calculate LineTotal
+            LineTotal = float(UnitPrice) * int(OrderQty)
+
 
             # no null inputs
             query = "UPDATE OrderDetails SET BookISBN = %s, OID = %s, OrderQty = %s, UnitPrice = %s, LineTotal = %s WHERE ID = %s"
