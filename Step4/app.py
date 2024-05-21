@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json, request
+from flask import Flask, render_template, json, request, redirect
 from flask_mysqldb import MySQL
 import os
 import database.db_connector as db
@@ -16,58 +16,25 @@ app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
 mysql = MySQL(app)
 
-# Example Data
-
-customers_from_app_py = [
-    {
-        "FirstName" : "Patrick",
-        "LastName" : "Kim",
-        "Email" : "kimpatr@oregonstate.edu"
-    },{
-        "FirstName" : "William",
-        "LastName" : "Chen",
-        "Email" : "chenwill@oregonstate.edu"
-    },{
-        "FirstName" : "Jane",
-        "LastName" : "Smith",
-        "Email" : "jsmith@mail.com"
-    }
- ]
-
-orders_from_app_py = [
-    {
-        "Date" : "2024-03-23",
-        "CustomerID" : 1
-    },
-    {
-        "Date" : "2024-03-31",
-        "CustomerID" : 2
-    },
-    {
-        "Date" : "2024-04-02",
-        "CustomerID" : 1
-    },
-    {
-        "Date" : "2024-04-20",
-        "CustomerID" : 3
-    }
-]
 # Routes
 @app.route('/')
 def root():
     return render_template("main.j2")
 
-# @app.route('/order-Details')
-# def order_details():
-#     query = "SELECT * FROM OrderDetails;"
-#     cursor = db.execute_query(db_connection=db_connection, query=query)
-#     results = cursor.fetchall()
-#     return render_template("orderDetails.j2", OrderDetails=results)
+@app.route('/orders', methods=["GET"])
+def orders():
+    query = "SELECT * FROM Orders"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    data = cur.fetchall()
+    
+    # render edit_orderDetails page
+    return render_template("orders.j2", data=data)
 
-@app.route('/orderdetails1', methods=["POST", "GET"])
+@app.route('/orderdetails', methods=["POST", "GET"])
 def orderdetails():
     if request.method == "GET":
-        query = "SELECT Books.ISBN, OrderDetails.OID, OrderDetails.OrderQty AS `Order Quantity`, OrderDetails.UnitPrice AS `Unit Price`, (OrderDetails.UnitPrice * OrderDetails.OrderQty) AS LineTotal FROM OrderDetails INNER JOIN Books ON OrderDetails.BookISBN = Books.ISBN ORDER BY OrderDetails.OID, Books.ISBN;"
+        query = "SELECT OrderDetails.ID, Books.ISBN, Books.Title, OrderDetails.OID, OrderDetails.OrderQty AS `Order Quantity`, OrderDetails.UnitPrice AS `Unit Price`, (OrderDetails.UnitPrice * OrderDetails.OrderQty) AS LineTotal FROM OrderDetails INNER JOIN Books ON OrderDetails.BookISBN = Books.ISBN ORDER BY OrderDetails.OID, Books.ISBN;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -80,14 +47,42 @@ def orderdetails():
         
         # render edit_orderDetails page passing our query data and title data to the edit_orderDetails template
         return render_template("orderDetails.j2", data=data, titles=title_data)
-# @app.route('/customers')
-# def customers():
-#     return render_template("customers.j2", customers = customers_from_app_py)
 
-# @app.route('/orders')
-# def orders():
-#     return render_template("orders.j2", orders = orders_from_app_py)
+@app.route("/edit_orderdetails/<int:id>", methods=["POST","GET"])
+def edit_orderdetails(id):
+    if request.method == "GET":
+        # query to grab info of order details with passed id
+        query = "SELECT * FROM OrderDetails WHERE id = %s" % (id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        
+        # query to grab book ID/Title data for dropdown
+        query2 = "SELECT ISBN, Title FROM Books"
+        cur = mysql.connection.cursor()
+        cur.execute(query2)
+        title_data = cur.fetchall()
+        
+        # render edit_orderDetails page
+        return render_template("edit_orderDetails.j2", data=data, titles=title_data)
+    
+    if request.method == "POST":
+        if request.form.get("Edit_orderDetails"):
+            # grab user form inputs
+            ID = request.form["orderDetailsID"] # hidden
+            ISBN = request.form["title"] # displays as title
+            OID = request.form["OID"]
+            OrderQty = request.form["OrderQty"]
+            UnitPrice = request.form["UnitPrice"] # hidden
+            LineTotal = request.form["LineTotal"] # hidden
 
+            # no null inputs
+            query = "UPDATE OrderDetails SET BookISBN = %s, OID = %s, OrderQty = %s, UnitPrice = %s, LineTotal = %s WHERE ID = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (ISBN, OID, OrderQty, UnitPrice, LineTotal, ID))
+            mysql.connection.commit()
+            
+            return redirect("/orderdetails")
 #debug = True will automatically refresh app so we don't have to keep rerun script
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 3434))
