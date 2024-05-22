@@ -5,6 +5,8 @@ import database.db_connector as db
 from dotenv import load_dotenv, find_dotenv
 
 # Configuration
+load_dotenv(find_dotenv())
+
 host =  os.environ.get("host")
 user = os.environ.get("user")
 passwd = os.environ.get("passwd")
@@ -12,8 +14,6 @@ database = os.environ.get("db")
 
 app = Flask(__name__)
 db_connection = db.connect_to_database(host = host, user = user, passwd = passwd, db = database)
-
-load_dotenv(find_dotenv())
 
 app.config['MYSQL_HOST'] = host
 app.config['MYSQL_USER'] = user
