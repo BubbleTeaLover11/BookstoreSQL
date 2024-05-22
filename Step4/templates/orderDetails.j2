@@ -20,20 +20,39 @@
 
         <!-- End of this for loop -->
         {% endfor %}
+        <th>Edit</td>
+        <th>Delete</td>
     </tr>
     <tbody>
-
-    <!-- Now, iterate through every person in bsg_people -->
     {% for item in data %}
     <tr>
-        <!-- Then iterate through every key in the current person dictionary -->
-        {% for key in item.keys() %}
-
-        <!-- Create a <td> element with the value of that key in it -->
-        <td>{{item[key]}}</td>
-        {% endfor %}
+        <td>{{item['ID']}}</td>
+        <td>{{item['ISBN']}}</td>
+        <td>{{item['Title']}}</td>
+        <td>{{item['OID']}}</td>
+        <td>{{item['Order Quantity']}}</td>
+        <td>{{item['Unit Price']}}</td>
+        <td>{{item['LineTotal']}}</td>
+        <td><a href = /edit_orderdetails/{{item['ID']}}>Edit</a></td>
+        <td><a href = /delete-order-details/{{item['ID']}}>Delete</a></td>
     </tr>
     {% endfor %}
     </table>
+    <div id="insert">
+        <form method="POST" id="addOrderDetails" action="/create-order-details">
+            <legend><strong>Add New Order Details</strong></legend>
+                <fieldset class="fields">
+                    <label> Book ISBN </label><select name="BookISBN">
+                        <option value="0">&nbsp;</option>
+                        {% for item in titles %}
+                        <option value={{item['ISBN']}}>{{item['Title']}}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="OrderID"> Order ID </label><input type="number" name="OrderID">
+                    <label for="OrderQty"> Order Qty </label><input type="number" name="OrderQty">
+                </fieldset>
+                    <input class="btn" type="submit" id="addOrderDetails" value="Add Order Details">
+            </form>
+    </div>
 </body>
 </html>

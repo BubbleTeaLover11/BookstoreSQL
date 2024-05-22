@@ -48,7 +48,7 @@ def orderdetails():
         # render edit_orderDetails page passing our query data and title data to the edit_orderDetails template
         return render_template("orderDetails.j2", data=data, titles=title_data)
 
-# route to see customer Invoice    
+# route to see customer Invoice (for checking Links)
 @app.route('/orderdetails/<int:id>', methods=["GET"])
 def custorderdetails(id):
     query = "SELECT Orders.ID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS FullName, CURDATE() AS CurrentDate FROM Customers INNER JOIN Orders ON Customers.ID = Orders.CID WHERE Orders.ID = %s" % (id)
@@ -88,28 +88,79 @@ def edit_orderdetails(id):
             ISBN = request.form["title"] # displays as title
             OID = request.form["OID"]
             OrderQty = request.form["OrderQty"]
-
             # UnitPrice = request.form["UnitPrice"] # hidden
             # LineTotal = request.form["LineTotal"] # hidden
+
+            # Null inputs
             
-            # Fetch UnitPrice from Books table based on ISBN
-            query = "SELECT Price FROM Books WHERE ISBN = %s"
-            cur = mysql.connection.cursor()
-            cur.execute(query, (ISBN,))
-            book = cur.fetchone()
-            UnitPrice = book['Price']
-
-            # Calculate LineTotal
-            LineTotal = float(UnitPrice) * int(OrderQty)
-
+            if ISBN == "0" or OrderQty == "":
+                # return redirect("/orderdetails")
+                pass
 
             # no null inputs
-            query = "UPDATE OrderDetails SET BookISBN = %s, OID = %s, OrderQty = %s, UnitPrice = %s, LineTotal = %s WHERE ID = %s"
-            cur = mysql.connection.cursor()
-            cur.execute(query, (ISBN, OID, OrderQty, UnitPrice, LineTotal, ID))
-            mysql.connection.commit()
+            else:
+                # Fetch UnitPrice from Books table based on ISBN
+                query = "SELECT Price FROM Books WHERE ISBN = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (ISBN,))
+                book = cur.fetchone()
+                UnitPrice = book['Price']
+
+                # Calculate LineTotal
+                LineTotal = float(UnitPrice) * int(OrderQty)
+                
+                query2 = "UPDATE OrderDetails SET BookISBN = %s, OID = %s, OrderQty = %s, UnitPrice = %s, LineTotal = %s WHERE ID = %s"
+                # cur = mysql.connection.cursor()
+                # cur.execute(query2, (ISBN, OID, OrderQty, UnitPrice, LineTotal, ID))
+                # mysql.connection.commit()
+                try:
+                    cur = mysql.connection.cursor()
+                    cur.execute(query, (ISBN, OID, OrderQty, UnitPrice, LineTotal, ID))
+                    mysql.connection.commit()
+                    return redirect("/orderdetails")
+                except:
+                    return redirect("/orderdetails")
             
             return redirect("/orderdetails")
+@app.route('/create-order-details', methods=["POST", "GET"])
+def create_order():
+    if request.method == "POST":
+        ISBN = request.form["BookISBN"]
+        OID = request.form["OrderID"]
+        OrderQty = request.form["OrderQty"]
+        price = f"(SELECT Price FROM Books WHERE ISBN = {ISBN})"
+        curs = mysql.connection.cursor()
+        curs.execute(price)
+        if OID == '' and (ISBN == '' or ISBN == '0'):
+            return redirect('/orderdetails')
+        if ISBN == '0':
+            query = f"INSERT INTO OrderDetails (BookISBN, OID, OrderQty, UnitPrice, LineTotal) VALUES (NULL, {OID}, {OrderQty}, 0, 0);"
+        elif OID == "":
+            query = f"INSERT INTO OrderDetails (BookISBN, OID, OrderQty, UnitPrice, LineTotal) VALUES ({ISBN}, NULL, {OrderQty}, {price}, {price} * OrderQty);"
+        else:
+            query = f"INSERT INTO OrderDetails (BookISBN, OID, OrderQty, UnitPrice, LineTotal) VALUES ({ISBN}, {OID}, {OrderQty}, {price}, {price} * {OrderQty});"
+        try:    
+            curs = mysql.connection.cursor()
+            curs.execute(query)
+            mysql.connection.commit()
+            return redirect('/orderdetails')
+        except:
+            return redirect('/orderdetails')
+        
+    
+@app.route('/delete-order-details/<int:id>')
+def delete_order_details(id):
+    query = f"DELETE FROM OrderDetails WHERE ID = {id}"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    # mysql.connection.commit()
+    
+    query2 = f"DELETE FROM Orders WHERE NOT EXISTS (SELECT OID From OrderDetails);"
+    cur = mysql.connection.cursor()
+    cur.execute(query2)
+    mysql.connection.commit()
+
+    return redirect('/orderdetails')
 #debug = True will automatically refresh app so we don't have to keep rerun script
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 3434))
