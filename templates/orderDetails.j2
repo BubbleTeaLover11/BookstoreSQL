@@ -6,38 +6,46 @@
     <h1>Order Details Page</h1>
     <p>This is the Order Details Page It shows the details of an order including the book, order ID, order quantity, unit price, and line total.</p>
     <h2>Navigation</h2>
-    <p>[ <a href="/">Homepage</a> | <a href="/orders">Orders</a> | <a href="/orderdetails">Orders Details</a> ]</p>
-    <table>
-    <thead>
-    <tr>
-        <!-- Iterate through each key in the first entry to get the
-        column name -->
-        {% for key in data[0].keys() %}
+    <p>[ <a href="/">Homepage</a> | 
+    <a href="/books">Book Collection</a> | 
+    <a href="/publishers">Publishers</a> | 
+    <a href="/authors">Authors</a> | 
+    <a href="/customers">Customers</a> | 
+    <a href="/orders">Orders</a> | 
+    <a href="/orderdetails">Orders Details</a> ]</p>
+    <div id="OrderDetails">
+        <table border="1" cellpadding="5">
+            <caption> Authors: </caption>
+            <thead>
+            <tr>
+                <!-- Iterate through each key in the first entry to get the
+                column name -->
+                {% for key in data[0].keys() %}
 
-        <!-- Create a <th> tag with the key inside of it, this will be
-        our header row -->
-        <th>{{ key }}</th>
+                <!-- Create a <th> tag with the key inside of it, this will be
+                our header row -->
+                <th>{{ key }}</th>
 
-        <!-- End of this for loop -->
-        {% endfor %}
-        <th>Edit</td>
-        <th>Delete</td>
-    </tr>
-    <tbody>
-    {% for item in data %}
-    <tr>
-        <td>{{item['ID']}}</td>
-        <td>{{item['ISBN']}}</td>
-        <td>{{item['Title']}}</td>
-        <td>{{item['OID']}}</td>
-        <td>{{item['Order Quantity']}}</td>
-        <td>{{item['Unit Price']}}</td>
-        <td>{{item['LineTotal']}}</td>
-        <td><a href = /edit_orderdetails/{{item['ID']}}>Edit</a></td>
-        <td><a href = /delete-order-details/{{item['ID']}}>Delete</a></td>
-    </tr>
-    {% endfor %}
-    </table>
+                <!-- End of this for loop -->
+                {% endfor %}
+                <th>Edit</td>
+                <th>Delete</td>
+            </tr>
+            <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{item['ID']}}</td>
+                <td>{{item['ISBN']}}</td>
+                <td>{{item['Title']}}</td>
+                <td>{{item['OID']}}</td>
+                <td>{{item['Order Quantity']}}</td>
+                <td>{{item['Unit Price']}}</td>
+                <td>{{item['LineTotal']}}</td>
+                <td><a href = /edit_orderdetails/{{item['ID']}}>Edit</a></td>
+                <td><a href = /delete-order-details/{{item['ID']}}>Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
     <div id="insert">
         <form method="POST" id="addOrderDetails" action="/create-order-details">
             <legend><strong>Add New Order Details</strong></legend>

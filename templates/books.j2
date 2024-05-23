@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        Book Collection
+    </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<main>
+    <h1>Books Page</h1>
+    <p>This is the Books page that shows the books' ISBN, title, genre, stock, price, author's full name, and publisher</p>
+    <h2>Navigation</h2>
+    <p>[ <a href="/">Homepage</a> | 
+    <a href="/books">Book Collection</a> | 
+    <a href="/publishers">Publishers</a> | 
+    <a href="/authors">Authors</a> | 
+    <a href="/customers">Customers</a> | 
+    <a href="/orders">Orders</a> | 
+    <a href="/orderdetails">Orders Details</a> ]</p>
+    <div id="Books">
+        <table border="1" cellpadding="5"> 
+            <caption> Books: </caption>
+            {% if data %}
+                <thead>
+                    <tr>
+                        <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                        {% endfor %} 
+                    </tr>
+                <tbody>
+                    <!-- Now, iterate through every item in data -->
+                    {% for item in data %}
+                    <tr>
+                        <!-- Then iterate through every key in the current item dictionary -->
+                        {% for key in item.keys() %}
+                        <!-- Create a <td> element with the value of that key in it -->
+                        <td>{{item[key]}}</td> {% endfor %} 
+                    </tr> 
+                    {% endfor %} 
+            {% endif %} 
+        </table>
+        <p>&nbsp;</p>
+        <div id="insert">
+            <form method="POST" id="addBook">
+                <legend><strong>Add New Book</strong></legend>
+                    <fieldset class="fields">
+                        <label> Title: </label><input type="text" name="Title">
+                        <br>
+                        <label> Genre: </label><input type="text" name="Genre">
+                        <br>
+                        <label> Stock: </label><input type="text" name="Stock">
+                        <br>
+                        <label> Price: </label><input type="text" name="Price">
+                        <br>
+                        <label> Author Full Name: </label><input type="text" name="Author">
+                        <br>
+                        <label> Publishing Company: </label><input type="text" name="Publisher">
+                    </fieldset>
+                        <input class="btn" type="submit" id="addBook" value="Add Book">
+                        <input class="btn" type="button" value="cancel" onClick="browseBooks()">
+            </form>
+        </div>
+    </div>
+</main>
+</html>

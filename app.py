@@ -28,6 +28,43 @@ mysql = MySQL(app)
 def root():
     return render_template("main.j2")
 
+@app.route('/books')
+def books():
+    # query = "SELECT * FROM Books"
+    query = "SELECT Books.ISBN AS ISBN, Books.Title AS Title, Books.Genre AS Genre, Books.Stock AS Stock, Books.Price AS Price, CONCAT(Authors.FirstName, ' ', Authors.LastName) AS Author, Publishers.Company AS Publisher FROM Books INNER JOIN Authors ON Authors.ID = Books.AID INNER JOIN Publishers ON Publishers.ID = Books.PID"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    data = cur.fetchall()
+    
+    return render_template("books.j2", data=data)
+
+@app.route('/authors')
+def authors():
+    query = "SELECT * FROM Authors"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    data = cur.fetchall()
+    
+    return render_template("authors.j2", data=data)
+
+@app.route('/publishers')
+def publishers():
+    query = "SELECT * FROM Publishers"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    data = cur.fetchall()
+    
+    return render_template("publishers.j2", data=data)
+
+@app.route('/customers', methods=["GET"])
+def customers():
+    query = "SELECT * FROM Customers"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    data = cur.fetchall()
+    
+    return render_template("customers.j2", data=data)
+
 @app.route('/orders', methods=["GET"])
 def orders():
     query = "SELECT * FROM Orders"
@@ -68,7 +105,7 @@ def custorderdetails(id):
     cur.execute(query2)
     data2 = cur.fetchall()
     
-    return render_template("custoderdetails.j2", headerdata=data1, bodydata=data2)
+    return render_template("customerdetails.j2", headerdata=data1, bodydata=data2)
 
 @app.route("/edit_orderdetails/<int:id>", methods=["POST","GET"])
 def edit_orderdetails(id):
