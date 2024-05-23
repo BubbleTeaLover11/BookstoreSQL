@@ -1,3 +1,8 @@
+# Citation for db.connect_to_database
+# Date 5.22.2024
+# Copied for purpose of connecting to MySQL database
+# Source:https://github.com/osu-cs340-ecampus/flask-starter-app?tab=readme-ov-file
+
 from flask import Flask, render_template, json, request, redirect
 from flask_mysqldb import MySQL
 import os
@@ -13,6 +18,8 @@ passwd = os.environ.get("passwd")
 database = os.environ.get("db")
 
 app = Flask(__name__)
+
+# Handles connection to MySQL database
 db_connection = db.connect_to_database(host = host, user = user, passwd = passwd, db = database)
 
 app.config['MYSQL_HOST'] = host
