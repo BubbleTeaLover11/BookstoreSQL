@@ -38,12 +38,17 @@
         </table>
     <p>&nbsp;</p>
     <div id="insert">
-        <form method="POST" id="addOrder">
+        <form method="POST" id="addOrder" action="/create-orders">
             <legend><strong>Add Order</strong></legend>
                 <fieldset class="fields">
                     <label> Date </label><input type="date" name="Date">
-                    <label> Customer ID </label><input type="number" name="CustomerID">
-                </fieldset>
+                    <label> Customer Name </label>
+                        <select name="CID">
+                            <option value="0">&nbsp;</option>
+                            {% for item in cids %}
+                            <option value={{item['ID']}}>{{item['FirstName'] + ' ' + item['LastName']}}</option>
+                            {% endfor %}
+                        </select>
                     <input class="btn" type="submit" id="addCustomer" value="Add Order">
                     <input class="btn" type="button" value="cancel" onClick="browseOrders()">
             </form>

@@ -46,7 +46,7 @@
         </table>
         <p>&nbsp;</p>
         <div id="insert">
-            <form method="POST" id="addBook">
+            <form action="/create-book" method="POST" id="addBook">
                 <legend><strong>Add New Book</strong></legend>
                     <fieldset class="fields">
                         <label> Title: </label><input type="text" name="Title">
@@ -56,10 +56,20 @@
                         <label> Stock: </label><input type="text" name="Stock">
                         <br>
                         <label> Price: </label><input type="text" name="Price">
-                        <br>
-                        <label> Author Full Name: </label><input type="text" name="Author">
-                        <br>
-                        <label> Publishing Company: </label><input type="text" name="Publisher">
+                        <label> Author Full Name: </label>
+                        <select name="AID">
+                            <option value="0">&nbsp;</option>
+                            {% for item in aids %}
+                            <option value={{item['ID']}}>{{item['Name']}}</option>
+                            {% endfor %}
+                        </select>
+                        <label> Publishing Company: </label>
+                        <select name="PID">
+                            <option value="0">&nbsp;</option>
+                            {% for item in pids %}
+                            <option value={{item['ID']}}>{{item['Company']}}</option>
+                            {% endfor %}
+                        </select>
                     </fieldset>
                         <input class="btn" type="submit" id="addBook" value="Add Book">
                         <input class="btn" type="button" value="cancel" onClick="browseBooks()">
