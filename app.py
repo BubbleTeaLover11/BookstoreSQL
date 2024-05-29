@@ -163,7 +163,7 @@ def create_customer():
 
 @app.route('/orders', methods=["GET"])
 def orders():
-    query = "SELECT * FROM Orders"
+    query = "SELECT Orders.ID AS OrderID, Orders.Date, Orders.CID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS CustomerName FROM Orders INNER JOIN Customers ON Orders.CID = Customers.ID"
     cur = mysql.connection.cursor()
     cur.execute(query)
     data = cur.fetchall()
