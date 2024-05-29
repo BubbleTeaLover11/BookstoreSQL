@@ -258,19 +258,23 @@ def edit_orderdetails(id):
         OrderQty = request.form["OrderQty"]
             
         if ISBN == "0" or OrderQty == "":
-            return redirect("/orderdetails")
+            return redirect("/z")
 
         # Fetch UnitPrice from Books table based on ISBN
-        query = "SELECT Price FROM Books WHERE ISBN = %s"
+        query = "SELECT Price, Stock FROM Books WHERE ISBN = %s"
         cur.execute(query, (ISBN,))
         book = cur.fetchone()
         UnitPrice = book['Price']
+        Stock = book['Stock']
 
         # Calculate LineTotal
         LineTotal = float(UnitPrice) * int(OrderQty)
         
         query2 = "UPDATE OrderDetails SET BookISBN = %s, OID = %s, OrderQty = %s, UnitPrice = %s, LineTotal = %s WHERE ID = %s"
 
+        if int(OrderQty) > int(Stock):
+            return redirect("/orderdetails")
+        
         try:
             cur.execute(query2, (ISBN, OID, OrderQty, UnitPrice, LineTotal, ID))
             mysql.connection.commit()
@@ -294,7 +298,7 @@ def create_order():
         curs.execute(available)
         available = curs.fetchall()[0]['Stock']
 
-    if OID == '' and (ISBN == '' or ISBN == '0'):
+    if OID == '' or (ISBN == '' or ISBN == '0') or int(OrderQty) < 1:
         return redirect('/orderdetails')
 
     if ISBN == '0':
