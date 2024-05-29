@@ -193,35 +193,30 @@ def create_orders():
 @app.route('/orderdetails', methods=["POST", "GET"])
 def orderdetails():
     if request.method == "GET":
-        cur = mysql.connection.cursor()
-        
         query = "SELECT OrderDetails.ID, Books.ISBN, Books.Title, OrderDetails.OID, OrderDetails.OrderQty AS `Order Quantity`, OrderDetails.UnitPrice AS `Unit Price`, (OrderDetails.UnitPrice * OrderDetails.OrderQty) AS LineTotal FROM OrderDetails INNER JOIN Books ON OrderDetails.BookISBN = Books.ISBN ORDER BY OrderDetails.OID, Books.ISBN;"
+        cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
         
         # mySQL query to grab book ID/Title data for dropdown
         query2 = "SELECT ISBN, Title FROM Books"
+        cur = mysql.connection.cursor()
         cur.execute(query2)
         title_data = cur.fetchall()
         
-        # for OID drop down
-        query3 = "SELECT * FROM Orders"
-        cur.execute(query3)
-        oid = cur.fetchall()
-        
         # render edit_orderDetails page passing our query data and title data to the edit_orderDetails template
-        return render_template("orderDetails.j2", data=data, titles=title_data, oid=oid)
+        return render_template("orderDetails.j2", data=data, titles=title_data)
 
 # route to see customer Invoice (for checking Links)
 @app.route('/orderdetails/<int:id>', methods=["GET"])
 def custorderdetails(id):
-    cur = mysql.connection.cursor()
-    
     query = "SELECT Orders.ID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS FullName, CURDATE() AS CurrentDate FROM Customers INNER JOIN Orders ON Customers.ID = Orders.CID WHERE Orders.ID = %s" % (id)
+    cur = mysql.connection.cursor()
     cur.execute(query)
     data1 = cur.fetchall()
 
     query2 = "SELECT Books.ISBN, Books.Title, OrderDetails.OrderQty, OrderDetails.UnitPrice, OrderDetails.LineTotal FROM OrderDetails INNER JOIN Books ON OrderDetails.BookISBN = Books.ISBN WHERE OrderDetails.OID = %s" % (id)
+    cur = mysql.connection.cursor()
     cur.execute(query2)
     data2 = cur.fetchall()
     
@@ -229,27 +224,22 @@ def custorderdetails(id):
 
 @app.route("/edit-orderdetails/<int:id>", methods=["POST","GET"])
 def edit_orderdetails(id):
-    cur = mysql.connection.cursor()
-    
     if request.method == "GET":
         print("GET")
         # query to grab info of order details with passed id
         query = "SELECT * FROM OrderDetails WHERE id = %s" % (id)
+        cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
         
         # query to grab book ID/Title data for dropdown
         query2 = "SELECT ISBN, Title FROM Books"
+        cur = mysql.connection.cursor()
         cur.execute(query2)
         title_data = cur.fetchall()
         
-        # for OID drop down
-        query3 = "SELECT * FROM Orders"
-        cur.execute(query3)
-        oid = cur.fetchall()
-        
         # render edit_orderDetails page
-        return render_template("edit_orderDetails.j2", data=data, titles=title_data, oid=oid)
+        return render_template("edit_orderDetails.j2", data=data, titles=title_data)
     
     if request.method == "POST":
         ID = request.form["orderDetailsID"]
@@ -262,6 +252,7 @@ def edit_orderdetails(id):
 
         # Fetch UnitPrice from Books table based on ISBN
         query = "SELECT Price FROM Books WHERE ISBN = %s"
+        cur = mysql.connection.cursor()
         cur.execute(query, (ISBN,))
         book = cur.fetchone()
         UnitPrice = book['Price']
@@ -272,6 +263,7 @@ def edit_orderdetails(id):
         query2 = "UPDATE OrderDetails SET BookISBN = %s, OID = %s, OrderQty = %s, UnitPrice = %s, LineTotal = %s WHERE ID = %s"
 
         try:
+            cur = mysql.connection.cursor()
             cur.execute(query2, (ISBN, OID, OrderQty, UnitPrice, LineTotal, ID))
             mysql.connection.commit()
             return redirect("/orderdetails")
@@ -336,6 +328,5 @@ def delete_order_details(id):
     return redirect('/orderdetails')
 
 if __name__ == '__main__':
-
     port = int(os.environ.get('PORT', 5819))
     app.run(debug=True, port=port)
