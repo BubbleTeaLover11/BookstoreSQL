@@ -1,8 +1,3 @@
-# Citation for db.connect_to_database
-# Date 5.22.2024
-# Copied for purpose of connecting to MySQL database
-# Source:https://github.com/osu-cs340-ecampus/flask-starter-app?tab=readme-ov-file
-
 from flask import Flask, render_template, json, request, redirect
 from flask_mysqldb import MySQL
 import os
@@ -18,8 +13,6 @@ passwd = os.environ.get("passwd")
 database = os.environ.get("db")
 
 app = Flask(__name__)
-
-# Handles connection to MySQL database
 db_connection = db.connect_to_database(host = host, user = user, passwd = passwd, db = database)
 
 app.config['MYSQL_HOST'] = host
@@ -31,11 +24,14 @@ app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 mysql = MySQL(app)
 
 # Routes
+
+#INDEX
 @app.route('/')
 def root():
     return render_template("main.j2")
 
-@app.route('/books')
+#BOOKS
+@app.route('/books', methods=["POST", "GET"])
 def books():
     # query = "SELECT * FROM Books"
     query = "SELECT Books.ISBN AS ISBN, Books.Title AS Title, Books.Genre AS Genre, Books.Stock AS Stock, Books.Price AS Price, CONCAT(Authors.FirstName, ' ', Authors.LastName) AS Author, Publishers.Company AS Publisher FROM Books INNER JOIN Authors ON Authors.ID = Books.AID INNER JOIN Publishers ON Publishers.ID = Books.PID"
@@ -43,8 +39,38 @@ def books():
     cur.execute(query)
     data = cur.fetchall()
     
-    return render_template("books.j2", data=data)
+    aids = "SELECT ID, CONCAT(FirstName, ' ', LastName) as Name FROM Authors"
+    pids = "SELECT ID, Company FROM Publishers"
+    cur.execute(aids)
+    aids = cur.fetchall()
+    cur.execute(pids)
+    pids = cur.fetchall()
 
+    return render_template("books.j2", data=data, aids=aids, pids=pids)
+
+@app.route('/create-book', methods=["POST", "GET"])
+def create_book():
+    if request.method == "POST":
+        title = request.form['Title']
+        genre = request.form['Genre']
+        stock = request.form['Stock']
+        price = request.form['Price']
+        author = request.form['AID']
+        publisher = request.form['PID']
+
+        if author == '0' or publisher == '0':
+            return redirect('/books')
+        
+        try:
+            curs = mysql.connection.cursor()
+            query = f"INSERT INTO Books (Title, Genre, Stock, Price, AID, PID) VALUES ('{title}', '{genre}', {stock}, {price}, {author}, {publisher})"
+            curs.execute(query)
+            mysql.connection.commit()
+            return redirect("/books")
+        except:
+            return redirect("/books")
+
+#AUTHORS
 @app.route('/authors')
 def authors():
     query = "SELECT * FROM Authors"
@@ -54,6 +80,30 @@ def authors():
     
     return render_template("authors.j2", data=data)
 
+@app.route('/create-author', methods=["POST", "GET"])
+def create_author():
+    if request.method == "POST":
+        fname = request.form["FirstName"]
+        lname = request.form["LastName"]
+        gender = request.form["Gender"]
+
+        if fname == "" or lname == "":
+            return redirect("/authors")
+        
+        if gender == "":
+            gender = "NULL"
+
+        query = f"INSERT INTO Authors (FirstName, LastName, Gender) VALUES ('{fname}', '{lname}', '{gender}')"
+
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            mysql.connection.commit()
+            return redirect('/authors')
+        except:
+            return redirect('/authors')
+
+#PUBLISHERS
 @app.route('/publishers')
 def publishers():
     query = "SELECT * FROM Publishers"
@@ -63,6 +113,27 @@ def publishers():
     
     return render_template("publishers.j2", data=data)
 
+@app.route('/create-publisher', methods=["POST", "GET"])
+def create_publisher():
+    if request.method == "POST":
+        company = request.form['Company']
+        year = request.form['Year']
+
+        if company == "" or year == "":
+            return redirect('/publishers')
+        
+        query = f"INSERT INTO Publishers (Company, Year) VALUES ('{company}', {year});"
+
+        try:
+            print(query)
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            mysql.connection.commit()
+            return redirect("/publishers")
+        except:
+            return redirect("/publishers")
+
+#CUSTOMERS
 @app.route('/customers', methods=["GET"])
 def customers():
     query = "SELECT * FROM Customers"
@@ -72,6 +143,24 @@ def customers():
     
     return render_template("customers.j2", data=data)
 
+@app.route('/create-customer', methods=["POST"])
+def create_customer():
+    if request.method == "POST":
+        fname = request.form['FirstName']
+        lname = request.form['LastName']
+        email = request.form['Email']
+
+    query = f'INSERT INTO Customers (FirstName, LastName, Email) VALUES ("{fname}", "{lname}", "{email}");'
+
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        mysql.connection.commit()
+    except:
+        pass
+    finally:
+        return redirect('/customers')
+
 @app.route('/orders', methods=["GET"])
 def orders():
     query = "SELECT * FROM Orders"
@@ -79,8 +168,27 @@ def orders():
     cur.execute(query)
     data = cur.fetchall()
     
-    # render edit_orderDetails page
-    return render_template("orders.j2", data=data)
+    query2 = "SELECT * FROM Customers;"
+    cur.execute(query2)
+    cids = cur.fetchall()
+
+    return render_template("orders.j2", data=data, cids=cids)
+
+@app.route('/create-orders', methods=["POST"])
+def create_orders():
+    date = request.form['Date']
+    CID = request.form['CustomerID']
+
+    query = f"INSERT INTO Orders (Date, CID) VALUES ('{date}', '{CID}');"
+
+    try:
+        curs = mysql.connection.cursor()
+        curs.execute(query)
+        mysql.connection.commit()
+    except:
+        pass
+    finally:
+        return redirect("/orders")
 
 @app.route('/orderdetails', methods=["POST", "GET"])
 def orderdetails():
@@ -119,7 +227,7 @@ def custorderdetails(id):
     
     return render_template("customerdetails.j2", headerdata=data1, bodydata=data2)
 
-@app.route("/edit_orderdetails/<int:id>", methods=["POST","GET"])
+@app.route("/edit-orderdetails/<int:id>", methods=["POST","GET"])
 def edit_orderdetails(id):
     cur = mysql.connection.cursor()
     
@@ -158,7 +266,6 @@ def edit_orderdetails(id):
         book = cur.fetchone()
         UnitPrice = book['Price']
 
-        print(UnitPrice, OrderQty)
         # Calculate LineTotal
         LineTotal = float(UnitPrice) * int(OrderQty)
         
@@ -171,8 +278,7 @@ def edit_orderdetails(id):
         except:
             #Make an alert here or something
             return redirect("/orderdetails")
-            
-
+             
 @app.route('/create-order-details', methods=["POST", "GET"])
 def create_order():
     if request.method == "POST":
@@ -183,26 +289,40 @@ def create_order():
         curs = mysql.connection.cursor()
         curs.execute(price)
 
+    if ISBN != '' and ISBN != '0':
+        available = f"SELECT Stock FROM Books WHERE ISBN = {ISBN};"
+        curs.execute(available)
+        available = curs.fetchall()[0]['Stock']
+
     if OID == '' and (ISBN == '' or ISBN == '0'):
         return redirect('/orderdetails')
-    
+
     if ISBN == '0':
         query = f"INSERT INTO OrderDetails (BookISBN, OID, OrderQty, UnitPrice, LineTotal) VALUES (NULL, {OID}, {OrderQty}, 0, 0);"
+        curs.execute(query)
+        mysql.connection.commit()
+        return redirect('/orderdetails')
+    elif int(OrderQty) > int(available):
+        return redirect('/orderdetails')
     elif OID == "":
         query = f"INSERT INTO OrderDetails (BookISBN, OID, OrderQty, UnitPrice, LineTotal) VALUES ({ISBN}, NULL, {OrderQty}, {price}, {price} * OrderQty);"
     else:
         query = f"INSERT INTO OrderDetails (BookISBN, OID, OrderQty, UnitPrice, LineTotal) VALUES ({ISBN}, {OID}, {OrderQty}, {price}, {price} * {OrderQty});"
 
     try:    
+        query2 = f"UPDATE Books SET Stock = {int(available) - int((OrderQty))} WHERE ISBN = {ISBN};"
         curs = mysql.connection.cursor()
         curs.execute(query)
         mysql.connection.commit()
-        return redirect('/orderdetails')
+        curs.execute(query2)
+        mysql.connection.commit()
     except:
-        return redirect('/orderdetails')
+        pass
+    finally:
+        return redirect("/orderdetails")
         
     
-@app.route('/delete-order-details/<int:id>')
+@app.route('/delete-orderdetails/<int:id>')
 def delete_order_details(id):
     query = f"DELETE FROM OrderDetails WHERE ID = {id}"
     cur = mysql.connection.cursor()
@@ -216,5 +336,6 @@ def delete_order_details(id):
     return redirect('/orderdetails')
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5808))
+
+    port = int(os.environ.get('PORT', 5819))
     app.run(debug=True, port=port)

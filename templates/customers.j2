@@ -38,7 +38,7 @@
         </table>
     <p>&nbsp;</p>
     <div id="insert">
-        <form method="POST" id="addCustomer">
+        <form method="POST" id="addCustomer" action="/create-customer">
             <legend><strong>Add Customer</strong></legend>
                 <fieldset class="fields">
                     <label> First Name </label><input type="text" name="FirstName">
@@ -50,18 +50,5 @@
             </form>
     </div>
     <p>&nbsp;</p>
-    <div id="delete" style="display: block">
-        <form id="deleteCustomer">
-            <legend><strong>Delete Customer</strong></legend>
-                <fieldset class="fields">
-                    <p>Are you sure you would like to delete this Customer?</p>
-                    <input type="hidden" name="customerID" id="deletecustomerID" value="3">
-                    <label><strong> ID:</strong></label> 3
-                    <label><strong>Name:</strong></label> Jane Smith
-                </fieldset>
-                    <input class="btn" type="submit" id="deleteCustomer" value="Delete Customer">
-                    <input class="btn" type="button" value="cancel" onClick="browseCustomers()">
-            </form>
-    </div>
 </body>
 </html>
