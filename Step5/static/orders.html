@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        Orders
+    </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<main>
+    <h1>Orders Page</h1>
+    <p>This is the Orders page that shows the order IDs, orders' date, total price and the customer ID that is associated with the order.</p>
+    <h2>Navigation</h2>
+    <p>[ <a href="index.html">Home Page</a> | 
+    <a href="books.html">Book Collection</a> | 
+    <a href="publishers.html">Publishers</a> | 
+    <a href="authors.html">Authors</a> | 
+    <a href="customers.html">Customers</a> | 
+    <a href="orders.html">Orders</a> |
+    <a href="orderDetails.html">Order Details</a> ]</p>
+    <div id="Orders">
+        <table>
+            <thread>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Customer ID</th>
+            </tr>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>2024-03-23</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2024-03-31</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>2024-04-02</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>2024-04-20</td>
+                <td>3</td>
+            </tr>
+        </table>
+        <p>&nbsp;</p>
+        <div id="insert">
+            <form method="POST" id="addOrder">
+                <legend><strong>Add New Order</strong></legend>
+                    <fieldset class="fields">
+                        <label> Date </label><input type="date" name="Date">
+                        <label> Customer ID </label><select name="CustomerID">
+                            <option value="0">&nbsp;</option>
+                                <option value="1"> 1. Patrick Kim</option>
+                                <option value="2"> 2. William Chen</option>
+                                <option value="3" selected> 3. Jane Smith</option>
+                            </select>
+                    </fieldset>
+                        <input class="btn" type="submit" id="addCustomer" value="Add Order">
+                        <input class="btn" type="button" value="cancel" onClick="browseOrders()">
+            </form>
+        </div>
+        <p>&nbsp;</p>
+    </div>
+</main>
+</html>

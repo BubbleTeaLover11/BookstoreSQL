@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        Authors List
+    </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<main>
+    <h1>Authors Page</h1>
+    <p>This is the Authors page that shows the authors' ID, first name, last name, and gender</p>
+    <h2>Navigation</h2>
+    <p>[ <a href="index.html">Home Page</a> | 
+        <a href="books.html">Book Collection</a> | 
+        <a href="publishers.html">Publishers</a> | 
+        <a href="authors.html">Authors</a> | 
+        <a href="customers.html">Customers</a> | 
+        <a href="orders.html">Orders</a> |
+        <a href="orderDetails.html">Order Details</a> ]</p>
+    <div id="Books">
+        <table>
+            <caption>
+                List of Authors
+            </caption>
+        <thead>
+            <tr>
+                <th scope="col">Author ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Gender</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Joanne</td>
+                <td>Rowling</td>
+                <td>Female</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Alex</td>
+                <td>MichaelIDes</td>
+                <td>Male</td>
+            </tr>       
+            <tr>
+                <td>3</td>
+                <td>Ray</td>
+                <td>Bradbury</td>
+                <td>Male</td>
+            </tr>                    
+        </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <div id="insert">
+        <form method="POST" id="addAuthor">
+            <legend><strong>Add New Author</strong></legend>
+                <fieldset class="fields">
+                    <label> First Name </label><input type="text" name="FirstName">
+                    <br>
+                    <label> Last Name </label><input type="text" name="LastName">
+                    <br>
+                    <label> Gender </label><input type="text" name="Gender">
+                </fieldset>
+                    <input class="btn" type="submit" id="addAuthor" value="Add Author">
+                    <input class="btn" type="button" value="cancel" onClick="browseAuthors()">
+        </form>
+        </div>
+    </div>
+</main>
+</html>

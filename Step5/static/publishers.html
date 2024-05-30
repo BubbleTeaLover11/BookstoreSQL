@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        Publishing List
+    </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<main>
+    <h1>Publisher Page</h1>
+    <p>This is the Publisher's page that shows the publishers' ID, company, and year founded.</p>
+    <h2>Navigation</h2>
+    <p>[ <a href="index.html">Home Page</a> | 
+        <a href="books.html">Book Collection</a> | 
+        <a href="publishers.html">Publishers</a> | 
+        <a href="authors.html">Authors</a> | 
+        <a href="customers.html">Customers</a> | 
+        <a href="orders.html">Orders</a> |
+        <a href="orderDetails.html">Order Details</a> ]</p>
+    <div id="Books">
+        <table>
+            <caption>
+                List of Publishers
+            </caption>
+        <thead>
+            <tr>
+                <th scope="col">Publisher ID</th>
+                <th scope="col">Company</th>
+                <th scope="col">Year Founded</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Scholastic Corporation</td>
+                <td>1920</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Macmillian Publishers</td>
+                <td>1843</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Ballantine Books</td>
+                <td>1952</td>
+            </tr>            
+        </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <div id="insert">
+            <form method="POST" id="addPublisher">
+                <legend><strong>Add New Publisher</strong></legend>
+                    <fieldset class="fields">
+                        <label> Company </label><input type="text" name="Company">
+                        <br>
+                        <label> Year Founded </label><input type="text" name="Year">
+                    </fieldset>
+                        <input class="btn" type="submit" id="addPublisher" value="Add Publisher">
+                        <input class="btn" type="button" value="cancel" onClick="browsePublishers()">
+            </form>
+        </div>
+    </div>
+</main>
+</html>

@@ -1,0 +1,57 @@
+<html>
+<head>
+    <title>Authors List</title>
+</head>
+<main>
+    <h1>Authors Page</h1>
+    <p>This is the Authors page that shows the authors' ID, first name, last name, and gender</p>
+    <h2>Navigation</h2>
+    <p>[ <a href="/">Homepage</a> | 
+    <a href="/books">Book Collection</a> | 
+    <a href="/publishers">Publishers</a> | 
+    <a href="/authors">Authors</a> | 
+    <a href="/customers">Customers</a> | 
+    <a href="/orders">Orders</a> | 
+    <a href="/orderdetails">Orders Details</a> ]</p>
+    <div id="Authors">
+        <table border="1" cellpadding="5"> 
+            <caption> Authors: </caption>
+            {% if data %}
+                <thead>
+                    <tr>
+                        <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                        {% endfor %} 
+                    </tr>
+                <tbody>
+                    <!-- Now, iterate through every item in data -->
+                    {% for item in data %}
+                    <tr>
+                        <!-- Then iterate through every key in the current item dictionary -->
+                        {% for key in item.keys() %}
+                        <!-- Create a <td> element with the value of that key in it -->
+                        <td>{{item[key]}}</td> {% endfor %} 
+                    </tr> 
+                    {% endfor %} 
+            {% endif %} 
+        </table>
+        <p>&nbsp;</p>
+        <div id="insert">
+        <form action="/create-author" method="POST" id="addAuthor">
+            <legend><strong>Add New Author</strong></legend>
+                <fieldset class="fields">
+                    <label> First Name </label><input type="text" name="FirstName">
+                    <br>
+                    <label> Last Name </label><input type="text" name="LastName">
+                    <br>
+                    <label> Gender </label><input type="text" name="Gender">
+                </fieldset>
+                    <input class="btn" type="submit" id="addAuthor" value="Add Author">
+                    <input class="btn" type="button" value="cancel" onClick="browseAuthors()">
+        </form>
+        </div>
+    </div>
+</main>
+</html>

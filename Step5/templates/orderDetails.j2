@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>Order Details</title>
+</head>
+<body>
+    <h1>Order Details Page</h1>
+    <p>This is the Order Details Page It shows the details of an order including the book, order ID, order quantity, unit price, and line total.</p>
+    <h2>Navigation</h2>
+    <p>[ <a href="/">Homepage</a> | 
+    <a href="/books">Book Collection</a> | 
+    <a href="/publishers">Publishers</a> | 
+    <a href="/authors">Authors</a> | 
+    <a href="/customers">Customers</a> | 
+    <a href="/orders">Orders</a> | 
+    <a href="/orderdetails">Orders Details</a> ]</p>
+    <div id="OrderDetails">
+        <table border="1" cellpadding="5">
+            <caption> Authors: </caption>
+            <thead>
+            <tr>
+                <!-- Iterate through each key in the first entry to get the
+                column name -->
+                {% for key in data[0].keys() %}
+
+                <!-- Create a <th> tag with the key inside of it, this will be
+                our header row -->
+                <th>{{ key }}</th>
+
+                <!-- End of this for loop -->
+                {% endfor %}
+                <th>Edit</td>
+                <th>Delete</td>
+            </tr>
+            <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{item['ID']}}</td>
+                <td>{{item['ISBN']}}</td>
+                <td>{{item['Title']}}</td>
+                <td>{{item['OID']}}</td>
+                <td>{{item['Order Quantity']}}</td>
+                <td>{{item['Unit Price']}}</td>
+                <td>{{item['LineTotal']}}</td>
+                <td><a href = /edit-orderdetails/{{item['ID']}}>Edit</a></td>
+                <td><a href = /delete-orderdetails/{{item['ID']}}>Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    <div id="insert">
+        <form method="POST" id="addOrderDetails" action="/create-order-details">
+            <legend><strong>Add New Order Details</strong></legend>
+                <fieldset class="fields">
+                    <label> Book ISBN </label><select name="BookISBN">
+                        <option value="0">&nbsp;</option>
+                        {% for item in titles %}
+                        <option value={{item['ISBN']}}>{{item['Title']}}</option>
+                        {% endfor %}
+                    </select>
+                    <label> Order ID and Date </label><select name="OrderID">
+                        <option value="0">&nbsp;</option>
+                        {% for item in oid %}
+                        <option value={{item['ID']}}>{{item['ID']}}. {{item['Date'].year}}.{{item['Date'].month}}.{{item['Date'].day}}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="OrderQty"> Order Qty </label><input type="number" name="OrderQty">
+                </fieldset>
+                    <input class="btn" type="submit" id="addOrderDetails" value="Add Order Details">
+            </form>
+    </div>
+</body>
+</html>
