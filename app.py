@@ -209,6 +209,7 @@ def orderdetails():
         cur.execute(query3)
         oid = cur.fetchall()
         
+        print(oid[0]['Date'].month, oid[0]['Date'].day, oid[0]['Date'].year)
         # render edit_orderDetails page passing our query data and title data to the edit_orderDetails template
         return render_template("orderDetails.j2", data=data, titles=title_data, oid=oid)
 
@@ -292,6 +293,8 @@ def create_order():
         price = f"(SELECT Price FROM Books WHERE ISBN = {ISBN})"
         curs = mysql.connection.cursor()
         curs.execute(price)
+
+    print(OID)
 
     if ISBN != '' and ISBN != '0':
         available = f"SELECT Stock FROM Books WHERE ISBN = {ISBN};"
