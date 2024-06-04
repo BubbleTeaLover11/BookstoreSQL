@@ -1,4 +1,6 @@
 <html lang="en">
+<link rel="stylesheet" href={{url_for('static', filename='style.css')}}>
+<link rel="stylesheet" href="style.css">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,13 +8,22 @@
     <title>
         Publishing List
     </title>
-    <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <main>
+    <h1>Navigation</h1>
+    <nav>
+    <a href="/">Homepage</a> 
+    <a href="/books">Books</a> 
+    <a href="/publishers">Publishers</a> 
+    <a href="/authors">Authors</a>  
+    <a href="/customers">Customers</a>
+    <a href="/orders">Orders</a>  
+    <a href="/orderdetails">Orders Details</a>
+    </nav>
+    <body>
     <h1>Publisher Page</h1>
     <p>This is the Publisher's page that shows the publishers' ID, company, and year founded.</p>
-    <h2>Navigation</h2>
     <p>[ <a href="/">Homepage</a> | 
     <a href="/books">Book Collection</a> | 
     <a href="/publishers">Publishers</a> | 
@@ -58,5 +69,6 @@
             </form>
         </div>
     </div>
+    </body>
 </main>
 </html>

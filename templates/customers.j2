@@ -1,19 +1,23 @@
 <html>
+<link rel="stylesheet" href={{url_for('static', filename='style.css')}}>
 <head>
     <title>Customers</title>
 </head>
-<body>
+<main>
+    <h1>Navigation</h1>
+    <nav>
+    <a href="/">Homepage</a> 
+    <a href="/books">Books</a> 
+    <a href="/publishers">Publishers</a> 
+    <a href="/authors">Authors</a>  
+    <a href="/customers">Customers</a>
+    <a href="/orders">Orders</a>  
+    <a href="/orderdetails">Orders Details</a>
+    </nav>
+    <body>
     <h1>Customers Page</h1>
-    <p>This is the Customers page that shows the customers' full name and email.</p>
-    <h2>Navigation</h2>
-    <p>[ <a href="/">Homepage</a> | 
-    <a href="/books">Book Collection</a> | 
-    <a href="/publishers">Publishers</a> | 
-    <a href="/authors">Authors</a> | 
-    <a href="/customers">Customers</a> | 
-    <a href="/orders">Orders</a> | 
-    <a href="/orderdetails">Orders Details</a> ]</p>
-    <table border="1" cellpadding="5"> 
+    <p>This is the Customers page that shows the customers' full name and email.</p>    
+    <table> 
             <caption> Customers: </caption>
             {% if data %}
                 <thead>
@@ -51,4 +55,5 @@
     </div>
     <p>&nbsp;</p>
 </body>
+</main>
 </html>

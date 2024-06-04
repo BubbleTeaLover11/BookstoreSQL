@@ -1,17 +1,40 @@
+main{
+    background-color: antiquewhite;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    margin: -3% -2%;
+    padding: 2% 2%;
+    margin-bottom: -10%;
+}
+
 table{
     table-layout: fixed;
     border-collapse: collapse;
     border: 1px solid black;
+    width: 100%;
+    background-color: rgb(228, 226, 226);
 }
 
+thead {
+    background-color: rgba(128, 128, 128, 0.63);
+}
 tr, th, td{
     border: 1px solid black;  
     width: 20%;
     text-align: center;
 }
 
-input {
-    padding: 0.5%;
+input, select {
+    padding: 0.2%;
     margin: 1%;
+    background-color: rgb(228, 226, 226);
+    border: 1px solid black;
+    border-radius: 2px;
 }
+
+input .btn{
+    padding: 2%;
+}
+
+
 

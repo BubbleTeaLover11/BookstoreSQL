@@ -1,8 +1,20 @@
 <html>
+<link rel="stylesheet" href={{url_for('static', filename='style.css')}}>
 <head>
     <title>Customer Order Invoice</title>
 </head>
-<body>
+<main>
+    <h1>Navigation</h1>
+    <nav>
+    <a href="/">Homepage</a> 
+    <a href="/books">Books</a> 
+    <a href="/publishers">Publishers</a> 
+    <a href="/authors">Authors</a>  
+    <a href="/customers">Customers</a>
+    <a href="/orders">Orders</a>  
+    <a href="/orderdetails">Orders Details</a>
+    </nav>
+    <body>
     <h1>Customer Invoice Page</h1>
     <p>This shows the Order Details and which customer it belongs to.</p>
     <h2>Navigation</h2>
@@ -61,6 +73,7 @@
                 </tr>
                 {% endfor %}
             </table>
-    </div>
-</body>
+        </div>
+    </body>
+</main>
 </html>
