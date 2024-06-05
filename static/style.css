@@ -1,17 +1,42 @@
-main{
-    background-color: antiquewhite;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
-    margin: -3% -2%;
-    padding: 2% 2%;
-    margin-bottom: -10%;
+/* 
+Citation for Background Image
+Date: 6.4.2024
+Downloaded from https://stock.adobe.com/images/many-old-books-stacked-in-texture/236346950
+This is a stock photo to make the website look nicer. It serves no other purpose
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+/*Downloaded Background Image*/
+body{
+    background-image: url(Adobe_Stock_Books.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-left: 0%;
+    margin-right: 0%;
+    height: 100vh;
+    margin-top: 0px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    max-width: 80%;
+    padding: 0% 5%;
+    margin: 0 auto;
 }
 
+main{
+    background-color: rgba(250, 239, 224);
+    padding: 1% 5% 1% 5%;
+}
+
+form{
+    
+}
 table{
     table-layout: fixed;
+    width: 100%;
     border-collapse: collapse;
     border: 1px solid black;
-    width: 100%;
     background-color: rgb(228, 226, 226);
 }
 
@@ -22,10 +47,15 @@ tr, th, td{
     border: 1px solid black;  
     width: 20%;
     text-align: center;
+    padding: 1%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
+
 input, select {
-    padding: 0.2%;
+    padding: 0.5%;
     margin: 1%;
     background-color: rgb(228, 226, 226);
     border: 1px solid black;
@@ -36,5 +66,42 @@ input .btn{
     padding: 2%;
 }
 
+fieldset {
+    border: 1px solid black;
+    border-radius: 2px;
+}
 
+a {
+    text-decoration: None;
+    color: black;
+    font-weight: bold;
+}
 
+nav {
+    background-color: burlywood;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+nav a{
+    padding: 1vw;
+}
+
+nav a:hover{
+    background-color: rgb(224, 201, 171);
+}
+
+header{
+    background-color: burlywood;
+    padding: 1% 2% 1% 2%;
+    border: 0%;
+    margin-bottom: -1%;
+}
+
+footer{
+    background-color: rgba(250, 239, 224);
+    padding: 0% 5%;
+    margin-top: -2%;
+}

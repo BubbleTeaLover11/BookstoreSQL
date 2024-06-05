@@ -2,6 +2,7 @@
 <!-- Date: 6.4.2024 -->
 <!-- Downloaded from https://favicon.io/emoji-favicons/bookmark/ -->
 <!-- Emoji is used for favicon, serves no purpose other than to look nice -->
+
 <html>
 <link rel="stylesheet" href={{url_for('static', filename='style.css')}}>
 <link rel="apple-touch-icon" sizes="180x180" href={{url_for('static',filename="apple-touch-icon.png")}}> 
@@ -11,7 +12,7 @@
 <link rel="icon" type="favicon/png" sizes="16x16" href={{url_for('static', filename="favicon-16x16.png")}}> 
 <link rel="manifest" href="site.webmanifest">
 <head>
-    <title>Orders</title>
+	<title>Edit Customer</title>
 </head>
 <body>
     <nav>
@@ -24,32 +25,31 @@
     <a href="/orderdetails">Orders Details</a>
     </nav>
     <main>
-    <body>
-    <h1>Orders Page</h1>
-    <p>This is the Orders page that shows the Orders' date, total price and the Customer ID that is associated with the order.</p>
-    <table> 
+    <h1>Customer</h1>
+    <table border="1" cellpadding="5"> 
         {% if data %}
-            <thead>
-                <td>
-                    <strong>
-                    Order ID
-                    </strong
-                </td>
-                <td>
-                    <strong>
-                    Date
-                    </strong
-                </td>
-                <td>
-                    <strong>
-                    Customer ID
-                    </strong
-                </td>
-                <td>
-                    <strong>
-                    Customer Name
-                    </strong
-                </td>                
+                <thead>
+                    <th>
+                        <strong>
+                        Customer ID
+                        </strong
+                    </th>
+                    <th>
+                        <strong>
+                        First Name
+                        </strong
+                    </th>
+                    <th>
+                        <strong>
+                        Last Name
+                        </strong
+                    </th>
+                    <th>
+                        <strong>
+                        Email
+                        </strong
+                    </th>
+                </thead>
             <tbody>
                 <!-- Now, iterate through every item in data -->
                 {% for item in data %}
@@ -61,27 +61,27 @@
                 </tr> 
                 {% endfor %} 
         {% endif %} 
-        </table>
+    </table>
     <p>&nbsp;</p>
-    <form method="POST" id="addOrder" action="/create-orders">
-        <legend><strong>Add Order</strong></legend>
-            <fieldset class="fields">
-                <label> Date </label><input type="date" name="Date" required>
-                <label> Customer Name </label>
-                    <select name="CID">
-                        <option value="0">&nbsp;</option>
-                        {% for item in cids %}
-                        <option value={{item['ID']}}>{{item['FirstName'] + ' ' + item['LastName']}}</option>
-                        {% endfor %}
-                    </select>
-                <input class="btn" type="submit" id="addCustomer" value="Add Order">
-        </form>
-    <p>&nbsp;</p>
-    </main>
-</body>
+    <form method="post">
+        <legend><strong>Edit Customer</strong></legend>
+        <fieldset>
+            <input type="hidden" value="{{data[0].ID}}" class="form-control" id="ID" name="ID" required>
+            <label for="fname">First Name:</label>
+            <input type="text" value="{{data[0].FirstName}}" id="fname" name="fname" placeholder="" required></input>	
+            <label for="lname">Last Name:</label>
+            <input type="text" value="{{data[0].LastName}}"  id="lname" name="lname" placeholder="" required></input>       
+            <label for="email">Email:</label>
+            <input type="email" value="{{data[0].Email}}" class="form-control" id="email" name="email" required>
+        </fieldset>
+        <input type="submit" value="Edit Customer" name="Edit_Customer" class="btn btn-primary">
+        <a href='/customers'><input class="btn" type="button" value="Cancel"></a>
+    </form>
+</main>
+</body>   
 <footer>
     <p>
     &copy; William Chen and Patrick Kim 2024
     </p>
-</footer>
+</footer>     
 </html>

@@ -1,6 +1,17 @@
+<!-- Citation for the following: favicon -->
+<!-- Date: 6.4.2024 -->
+<!-- Downloaded from https://favicon.io/emoji-favicons/bookmark/ -->
+<!-- Emoji is used for favicon, serves no purpose other than to look nice -->
+
 <html lang="en">
 <link rel="stylesheet" href={{url_for('static', filename='style.css')}}>
 <link rel="stylesheet" href="style.css">
+<link rel="apple-touch-icon" sizes="180x180" href={{url_for('static',filename="apple-touch-icon.png")}}> 
+<link rel="icon" type="favicon/png" sizes="512x512" href={{url_for('static', filename="android-chrome-512x512.png")}}> 
+<link rel="icon" type="favicon/png" sizes="192x192" href={{url_for('static', filename="android-chrome-192x192.png")}}> 
+<link rel="icon" type="favicon/png" sizes="32x32" href={{url_for('static', filename="favicon-32x32.png")}}> 
+<link rel="icon" type="favicon/png" sizes="16x16" href={{url_for('static', filename="favicon-16x16.png")}}> 
+<link rel="manifest" href="site.webmanifest">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +19,8 @@
     <title>
         Publishing List
     </title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
-<main>
-    <h1>Navigation</h1>
+<body>
     <nav>
     <a href="/">Homepage</a> 
     <a href="/books">Books</a> 
@@ -20,29 +29,28 @@
     <a href="/customers">Customers</a>
     <a href="/orders">Orders</a>  
     <a href="/orderdetails">Orders Details</a>
-    </nav>
-    <body>
+    </nav>  
+    <main>
     <h1>Publisher Page</h1>
     <p>This is the Publisher's page that shows the publishers' ID, company, and year founded.</p>
-    <p>[ <a href="/">Homepage</a> | 
-    <a href="/books">Book Collection</a> | 
-    <a href="/publishers">Publishers</a> | 
-    <a href="/authors">Authors</a> | 
-    <a href="/customers">Customers</a> | 
-    <a href="/orders">Orders</a> | 
-    <a href="/orderdetails">Orders Details</a> ]</p>
-    <div id="Publishers">
         <table border="1" cellpadding="5"> 
-            <caption> Publishers: </caption>
             {% if data %}
                 <thead>
-                    <tr>
-                        <!-- Iterate through each key in the first entry to get the column name -->
-                        {% for key in data[0].keys() %}
-                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
-                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
-                        {% endfor %} 
-                    </tr>
+                    <th>
+                        <strong>
+                        Publisher ID
+                        </strong
+                    </th>
+                    <th>
+                        <strong>
+                        Company
+                        </strong
+                    </th>
+                    <th>
+                        <strong>
+                        Year
+                        </strong
+                    </th>                    
                 <tbody>
                     <!-- Now, iterate through every item in data -->
                     {% for item in data %}
@@ -56,19 +64,20 @@
             {% endif %} 
         </table>
         <p>&nbsp;</p>
-        <div id="insert">
-            <form method="POST" id="addPublisher" action="/create-publisher">
-                <legend><strong>Add New Publisher</strong></legend>
-                    <fieldset class="fields">
-                        <label> Company </label><input type="text" name="Company">
-                        <br>
-                        <label> Year Founded </label><input type="text" name="Year">
-                    </fieldset>
-                        <input class="btn" type="submit" id="addPublisher" value="Add Publisher">
-                        <input class="btn" type="button" value="cancel" onClick="browsePublishers()">
+        <form method="POST" id="addPublisher" action="/create-publisher">
+            <legend><strong>Add New Publisher</strong></legend>
+                <fieldset class="fields">
+                    <label> Company </label><input type="text" name="Company" required>
+                    <br>
+                    <label> Year Founded </label><input type="text" name="Year" required>
+                </fieldset>
+                    <input class="btn" type="submit" id="addPublisher" value="Add Publisher">
             </form>
-        </div>
-    </div>
-    </body>
-</main>
+    </main>
+</body>
+<footer>
+    <p>
+    &copy; William Chen and Patrick Kim 2024
+    </p>
+</footer>
 </html>

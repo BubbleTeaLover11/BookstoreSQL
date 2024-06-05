@@ -1,4 +1,11 @@
-from flask import Flask, render_template, json, request, redirect
+# Citation for database.db_connector and adaptation
+# Author: gkochera, et. al
+# Date 6.4.2024
+# Copied from https://github.com/osu-cs340-ecampus/flask-starter-app?tab=readme-ov-file
+# Code for database.db_connector is used to connect to MySQL to provide functional Database usage
+# Code from this website has been adapted and refitted for the purpose of this project
+
+from flask import Flask, render_template, json, request, redirect, flash
 from flask_mysqldb import MySQL
 import os
 import database.db_connector as db
@@ -12,6 +19,8 @@ user = os.environ.get("user")
 passwd = os.environ.get("passwd")
 database = os.environ.get("db")
 
+#db_connection handles mySQL connection
+#Code that handles CRUD operation is adapted from flask starter app
 app = Flask(__name__)
 db_connection = db.connect_to_database(host = host, user = user, passwd = passwd, db = database)
 
@@ -34,7 +43,7 @@ def root():
 @app.route('/books', methods=["POST", "GET"])
 def books():
     # query = "SELECT * FROM Books"
-    query = "SELECT Books.ISBN AS ISBN, Books.Title AS Title, Books.Genre AS Genre, Books.Stock AS Stock, Books.Price AS Price, CONCAT(Authors.FirstName, ' ', Authors.LastName) AS Author, Publishers.Company AS Publisher FROM Books INNER JOIN Authors ON Authors.ID = Books.AID INNER JOIN Publishers ON Publishers.ID = Books.PID"
+    query = "SELECT Books.ISBN AS ISBN, Books.Title AS Title, Books.Genre AS Genre, Books.Stock AS Stock, Books.Price AS Price, CONCAT(Authors.FirstName, ' ', Authors.LastName) AS Author, Publishers.Company AS Publisher FROM Books INNER JOIN Authors ON Authors.ID = Books.AID INNER JOIN Publishers ON Publishers.ID = Books.PID ORDER BY ISBN asc"
     cur = mysql.connection.cursor()
     cur.execute(query)
     data = cur.fetchall()
@@ -50,6 +59,7 @@ def books():
 
 @app.route('/create-book', methods=["POST", "GET"])
 def create_book():
+
     if request.method == "POST":
         title = request.form['Title']
         genre = request.form['Genre']
@@ -61,19 +71,23 @@ def create_book():
         if author == '0' or publisher == '0':
             return redirect('/books')
         
+        if int(stock) < 0 or int(price) < 0:
+            return redirect('/books')
+        
         try:
             curs = mysql.connection.cursor()
-            query = f"INSERT INTO Books (Title, Genre, Stock, Price, AID, PID) VALUES ('{title}', '{genre}', {stock}, {price}, {author}, {publisher})"
+            query = f"INSERT INTO Books (Title, Genre, Stock, Price, AID, PID) VALUES ('{title}', '{genre}', {stock}, {price}, {author}, {publisher}) "
             curs.execute(query)
             mysql.connection.commit()
-            return redirect("/books")
         except:
+            pass
+        finally:
             return redirect("/books")
 
 #AUTHORS
 @app.route('/authors')
 def authors():
-    query = "SELECT * FROM Authors"
+    query = "SELECT * FROM Authors ORDER BY ID asc"
     cur = mysql.connection.cursor()
     cur.execute(query)
     data = cur.fetchall()
@@ -86,9 +100,6 @@ def create_author():
         fname = request.form["FirstName"]
         lname = request.form["LastName"]
         gender = request.form["Gender"]
-
-        if fname == "" or lname == "":
-            return redirect("/authors")
         
         if gender == "":
             gender = "NULL"
@@ -99,8 +110,9 @@ def create_author():
             cur = mysql.connection.cursor()
             cur.execute(query)
             mysql.connection.commit()
-            return redirect('/authors')
         except:
+            pass
+        finally:
             return redirect('/authors')
 
 #PUBLISHERS
@@ -160,10 +172,43 @@ def create_customer():
         pass
     finally:
         return redirect('/customers')
+    
+@app.route('/edit-customer/<int:id>', methods=["POST", "GET"])
+def edit_customer(id):
+    cur = mysql.connection.cursor()
 
+    if request.method == "GET":
+        query = f"SELECT * FROM Customers WHERE id = {id}"
+        cur.execute(query)
+        data = cur.fetchall()
+
+        return render_template("edit_customer.j2", data=data)
+    
+    if request.method == "POST":
+        ID, fname, lname, email = request.form['ID'], request.form['fname'], request.form['lname'], request.form['email']
+
+        query = f"UPDATE Customers SET FirstName='{fname}', LastName='{lname}', Email='{email}' WHERE ID={ID}"
+
+        if fname == "" or lname == "" or email == "":
+            return redirect('/customers')
+
+        cur.execute(query)
+        mysql.connection.commit()
+        return redirect('/customers')
+        
+@app.route('/delete-customer/<int:id>')
+def delete_customer(id):
+    query = f'DELETE FROM Customers WHERE ID = {id}'
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    mysql.connection.commit()
+
+    return redirect('/customers')
+
+#ORDERS
 @app.route('/orders', methods=["GET"])
 def orders():
-    query = "SELECT Orders.ID AS OrderID, Orders.Date, Orders.CID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS CustomerName FROM Orders INNER JOIN Customers ON Orders.CID = Customers.ID"
+    query = "SELECT Orders.ID AS OrderID, Orders.Date, Orders.CID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS CustomerName FROM Orders INNER JOIN Customers ON Orders.CID = Customers.ID ORDER BY OrderID asc"
     cur = mysql.connection.cursor()
     cur.execute(query)
     data = cur.fetchall()
@@ -181,6 +226,9 @@ def create_orders():
 
     query = f"INSERT INTO Orders (Date, CID) VALUES ('{date}', '{CID}');"
 
+    if CID == "0":
+        return redirect("/orders")
+    
     try:
         curs = mysql.connection.cursor()
         curs.execute(query)
@@ -190,6 +238,7 @@ def create_orders():
     finally:
         return redirect("/orders")
 
+#ORDER DETAILS
 @app.route('/orderdetails', methods=["POST", "GET"])
 def orderdetails():
     if request.method == "GET":
@@ -233,7 +282,6 @@ def edit_orderdetails(id):
     cur = mysql.connection.cursor()
     
     if request.method == "GET":
-        print("GET")
         # query to grab info of order details with passed id
         query = "SELECT * FROM OrderDetails WHERE id = %s" % (id)
         cur.execute(query)
@@ -327,8 +375,7 @@ def create_order():
         pass
     finally:
         return redirect("/orderdetails")
-        
-    
+          
 @app.route('/delete-orderdetails/<int:id>')
 def delete_order_details(id):
     query = f"DELETE FROM OrderDetails WHERE ID = {id}"
@@ -343,6 +390,5 @@ def delete_order_details(id):
     return redirect('/orderdetails')
 
 if __name__ == '__main__':
-
     port = int(os.environ.get('PORT', 5819))
     app.run(debug=True, port=port)
