@@ -237,6 +237,44 @@ def create_orders():
     finally:
         return redirect("/orders")
 
+@app.route('/delete-order/<int:id>')
+def delete_order(id):
+    query = f"DELETE FROM Orders WHERE ID = {id}"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    mysql.connection.commit()
+
+    return redirect('/orders')
+
+@app.route('/edit-order/<int:id>', methods=["POST", "GET"])
+def edit_order(id):
+    cur = mysql.connection.cursor()
+
+    if request.method == "GET":
+        query = f"SELECT Orders.ID AS OrderID, Date(Orders.Date), Orders.CID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS CustomerName FROM Orders LEFT JOIN Customers ON Orders.CID = Customers.ID WHERE Orders.ID = {id}"
+        cur.execute(query)
+        data = cur.fetchall()
+        query = f"SELECT ID, CONCAT(FirstName, ' ', LastName) AS Name FROM Customers"
+        cur.execute(query)
+        customers = cur.fetchall()
+        
+        return render_template("edit_order.j2", data=data, customers=customers)
+    
+    if request.method == "POST":
+        ID = request.form["OrderID"]
+        Date = request.form["Date"]
+        CID = request.form["CID"]
+
+        if CID != "0":
+            query = f"UPDATE Orders SET Date = '{Date}', CID = {CID} WHERE ID = {ID}"
+        else:
+            query = f"UPDATE Orders SET Date = '{Date}', CID = NULL WHERE ID = {ID}"
+
+        cur.execute(query)
+        mysql.connection.commit()
+
+        return redirect("/orders")
+
 #ORDER DETAILS
 @app.route('/orderdetails', methods=["POST", "GET"])
 def orderdetails():

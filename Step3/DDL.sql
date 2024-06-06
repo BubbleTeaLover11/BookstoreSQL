@@ -41,13 +41,11 @@ CREATE OR REPLACE TABLE `Books` (
   CONSTRAINT `fk_book_author`
     FOREIGN KEY (`AID`)
     REFERENCES `Authors` (`ID`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE,
   CONSTRAINT `fk_book_publisher`
     FOREIGN KEY (`PID`)
     REFERENCES `Publishers` (`ID`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION
 );
 
 -- CUSTOMERS --
@@ -72,7 +70,6 @@ CREATE OR REPLACE TABLE `Orders` (
     FOREIGN KEY (`CID`)
     REFERENCES `Customers` (`ID`)
     ON DELETE SET NULL
-    ON UPDATE NO ACTION
 );
 
 -- ORDERDETAILS --
@@ -89,13 +86,11 @@ CREATE OR REPLACE TABLE `OrderDetails` (
   CONSTRAINT `fk_order_detail_book`
     FOREIGN KEY (`BookISBN`)
     REFERENCES `Books` (`ISBN`)
-    ON DELETE SET NULL
-    ON UPDATE NO ACTION,
+    ON DELETE SET NULL,
   CONSTRAINT `fk_order_detail_order1`
     FOREIGN KEY (`OID`)
     REFERENCES `Orders` (`ID`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION
 );
 
 /* --------------------- INSERTS ------------------------ */

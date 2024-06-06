@@ -48,17 +48,7 @@
                     <strong>
                     Customer Name
                     </strong
-                </td>  
-                <td>
-                    <strong>
-                    Edit
-                    </strong
-                </td>   
-                <td>
-                    <strong>
-                    Delete
-                    </strong
-                </td>                 
+                </td>            
             <tbody>
                 <!-- Now, iterate through every item in data -->
                 {% for item in data %}
@@ -67,25 +57,31 @@
                     {% for key in item.keys() %}
                     <!-- Create a <td> element with the value of that key in it -->
                     <td>{{item[key]}}</td> {% endfor %} 
-                    <td><a href= "/edit-order/{{item['OrderID'] }}" class="button edit-btn">Edit</a></td>
-                    <td><a href = "/delete-order/{{item['OrderID']}}" class="button delete-btn">Delete</a></td>
                 </tr> 
                 {% endfor %} 
         {% endif %} 
         </table>
     <p>&nbsp;</p>
-    <form method="POST" id="addOrder" action="/create-orders">
-        <legend><strong>Add Order</strong></legend>
+    <form method="POST">
+        <legend><strong>Edit Order</strong></legend>
             <fieldset class="fields">
-                <label> Date </label><input type="date" name="Date" required>
+                {% if data %}
+                <input type="hidden" value="{{data[0]['OrderID']}}" class="form-control" id="OrderID" name="OrderID" required>
+                <label> Date </label><input type="date" name="Date" value = {{data[0]['Date(Orders.Date)']}} required>
+                {% endif %}
                 <label> Customer Name </label>
                     <select name="CID">
-                        <option value="0">&nbsp;</option>
-                        {% for item in cids %}
-                        <option value={{item['ID']}}>{{item['FirstName'] + ' ' + item['LastName']}}</option>
+                    <option value="0">&nbsp;</option>
+                    {% for item in customers %}
+                        {% if item['ID'] == data[0]['CID'] %}
+                            <option value="{{item['ID']}}" selected>{{item['Name']}}</option>
+                        {% else %}
+                            <option value="{{item['ID']}}">{{item['Name']}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
-                <input class="btn" type="submit" id="addCustomer" value="Add Order">
+                <input type="submit" value="Edit Orders" name="Edit_order" class="btn btn-primary">
+        <a href='/orders'><input class="btn" type="button" value="Cancel"></a>
         </form>
     <p>&nbsp;</p>
     </main>
