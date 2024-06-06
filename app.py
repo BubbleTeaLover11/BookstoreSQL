@@ -71,7 +71,7 @@ def create_book():
         if author == '0' or publisher == '0':
             return redirect('/books')
         
-        if int(stock) < 0 or int(price) < 0:
+        if int(stock) < 0:
             return redirect('/books')
         
         try:
@@ -390,5 +390,5 @@ def delete_order_details(id):
     return redirect('/orderdetails')
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5819))
+    port = int(os.environ.get('PORT', 5809))
     app.run(debug=True, port=port)
