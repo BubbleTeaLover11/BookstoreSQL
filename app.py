@@ -208,7 +208,7 @@ def delete_customer(id):
 #ORDERS
 @app.route('/orders', methods=["GET"])
 def orders():
-    query = "SELECT Orders.ID AS OrderID, Orders.Date, Orders.CID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS CustomerName FROM Orders INNER JOIN Customers ON Orders.CID = Customers.ID ORDER BY OrderID asc"
+    query = "SELECT Orders.ID AS OrderID, Date(Orders.Date), Orders.CID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS CustomerName FROM Orders INNER JOIN Customers ON Orders.CID = Customers.ID ORDER BY OrderID asc"
     cur = mysql.connection.cursor()
     cur.execute(query)
     data = cur.fetchall()
@@ -390,5 +390,5 @@ def delete_order_details(id):
     return redirect('/orderdetails')
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5819))
+    port = int(os.environ.get('PORT', 58190))
     app.run(debug=True, port=port)

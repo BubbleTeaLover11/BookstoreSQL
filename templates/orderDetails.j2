@@ -52,8 +52,8 @@
                 <td>{{item['Order Quantity']}}</td>
                 <td>{{item['Unit Price']}}</td>
                 <td>{{item['LineTotal']}}</td>
-                <td><a href = /edit-orderdetails/{{item['ID']}}>Edit</a></td>
-                <td><a href = /delete-orderdetails/{{item['ID']}}>Delete</a></td>
+                <td><a href= "/edit-orderdetails/{{ item['ID'] }}" class="button edit-btn">Edit</a></td>
+                <td><a href = "/delete-orderdetails/{{item['ID']}}" class="button delete-btn">Delete</a></td>
             </tr>
             {% endfor %}
         </table>
