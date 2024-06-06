@@ -302,12 +302,16 @@ def edit_orderdetails(id):
     
     if request.method == "POST":
         ID = request.form["orderDetailsID"]
+        query = "SELECT * FROM OrderDetails WHERE id = %s" % (ID)
+        cur.execute(query)
+        data = cur.fetchall()
+
         ISBN = request.form["title"]
         OID = request.form["OID"]
         OrderQty = request.form["OrderQty"]
             
         if ISBN == "0" or OrderQty == "":
-            return redirect("/z")
+            return redirect("/orderdetails")
 
         # Fetch UnitPrice from Books table based on ISBN
         query = "SELECT Price, Stock FROM Books WHERE ISBN = %s"
@@ -324,8 +328,23 @@ def edit_orderdetails(id):
         if int(OrderQty) > int(Stock):
             return redirect("/orderdetails")
         
+        #Add or Subtract
+        #Positive if newQty > oldQty, Negative if newQty < oldQty
+        if str(data[0]['BookISBN']) == str(ISBN):
+            difference = int(OrderQty) - int(data[0]['OrderQty'])
+            print('DIFFERENCE:', difference)
+            query3 = f"UPDATE Books SET Stock = (Stock - {difference})WHERE ISBN = {ISBN}"
+            query4 = None
+        else:
+            query3 = f"UPDATE Books SET Stock = (Stock + {data[0]['OrderQty']}) WHERE ISBN = {data[0]['BookISBN']}"
+            query4 = f"UPDATE Books SET Stock = (Stock - {int(OrderQty)}) WHERE ISBN = {ISBN}"
+            print(query4)
+
         try:
             cur.execute(query2, (ISBN, OID, OrderQty, UnitPrice, LineTotal, ID))
+            cur.execute(query3)
+            if query4:
+                cur.execute(query4)
             mysql.connection.commit()
             return redirect("/orderdetails")
         except:
@@ -378,12 +397,22 @@ def create_order():
           
 @app.route('/delete-orderdetails/<int:id>')
 def delete_order_details(id):
-    query = f"DELETE FROM OrderDetails WHERE ID = {id}"
+
     cur = mysql.connection.cursor()
+    
+    query3 = f"SELECT OrderQty, BookISBN FROM OrderDetails WHERE ID = {id}"
+    cur.execute(query3)
+    print(query3)
+    data = cur.fetchall()
+    print(data)
+    query4 = f"UPDATE Books SET Stock = Stock + {data[0]['OrderQty']} WHERE ISBN = {data[0]['BookISBN']}"
+    cur.execute(query4)
+    mysql.connection.commit()
+
+    query = f"DELETE FROM OrderDetails WHERE ID = {id}"
     cur.execute(query)
     
     query2 = f"DELETE FROM Orders WHERE NOT EXISTS (SELECT OID From OrderDetails);"
-    cur = mysql.connection.cursor()
     cur.execute(query2)
     mysql.connection.commit()
 
