@@ -137,7 +137,6 @@ def create_publisher():
         query = f"INSERT INTO Publishers (Company, Year) VALUES ('{company}', {year});"
 
         try:
-            print(query)
             cur = mysql.connection.cursor()
             cur.execute(query)
             mysql.connection.commit()
@@ -258,7 +257,6 @@ def orderdetails():
         cur.execute(query3)
         oid = cur.fetchall()
         
-        print(oid[0]['Date'].month, oid[0]['Date'].day, oid[0]['Date'].year)
         # render edit_orderDetails page passing our query data and title data to the edit_orderDetails template
         return render_template("orderDetails.j2", data=data, titles=title_data, oid=oid)
 
@@ -325,20 +323,18 @@ def edit_orderdetails(id):
         
         query2 = "UPDATE OrderDetails SET BookISBN = %s, OID = %s, OrderQty = %s, UnitPrice = %s, LineTotal = %s WHERE ID = %s"
 
-        if int(OrderQty) > int(Stock):
+        if int(OrderQty) > int(Stock) + int(data[0]['OrderQty']):
             return redirect("/orderdetails")
         
         #Add or Subtract
         #Positive if newQty > oldQty, Negative if newQty < oldQty
         if str(data[0]['BookISBN']) == str(ISBN):
             difference = int(OrderQty) - int(data[0]['OrderQty'])
-            print('DIFFERENCE:', difference)
             query3 = f"UPDATE Books SET Stock = (Stock - {difference})WHERE ISBN = {ISBN}"
             query4 = None
         else:
             query3 = f"UPDATE Books SET Stock = (Stock + {data[0]['OrderQty']}) WHERE ISBN = {data[0]['BookISBN']}"
             query4 = f"UPDATE Books SET Stock = (Stock - {int(OrderQty)}) WHERE ISBN = {ISBN}"
-            print(query4)
 
         try:
             cur.execute(query2, (ISBN, OID, OrderQty, UnitPrice, LineTotal, ID))
@@ -361,8 +357,6 @@ def create_order():
         curs = mysql.connection.cursor()
         curs.execute(price)
 
-    print(OID)
-
     if ISBN != '' and ISBN != '0':
         available = f"SELECT Stock FROM Books WHERE ISBN = {ISBN};"
         curs.execute(available)
@@ -376,6 +370,7 @@ def create_order():
         curs.execute(query)
         mysql.connection.commit()
         return redirect('/orderdetails')
+    
     elif int(OrderQty) > int(available):
         return redirect('/orderdetails')
     elif OID == "":
@@ -399,12 +394,10 @@ def create_order():
 def delete_order_details(id):
 
     cur = mysql.connection.cursor()
-    
+
     query3 = f"SELECT OrderQty, BookISBN FROM OrderDetails WHERE ID = {id}"
     cur.execute(query3)
-    print(query3)
     data = cur.fetchall()
-    print(data)
     query4 = f"UPDATE Books SET Stock = Stock + {data[0]['OrderQty']} WHERE ISBN = {data[0]['BookISBN']}"
     cur.execute(query4)
     mysql.connection.commit()
