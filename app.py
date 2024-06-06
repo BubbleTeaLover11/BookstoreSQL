@@ -1,9 +1,10 @@
 # Citation for database.db_connector and adaptation
 # Author: gkochera, et. al
 # Date 6.4.2024
-# Copied from https://github.com/osu-cs340-ecampus/flask-starter-app?tab=readme-ov-file
+# Copied from CS 340 Starter Code
 # Code for database.db_connector is used to connect to MySQL to provide functional Database usage
 # Code from this website has been adapted and refitted for the purpose of this project
+# URL: https://github.com/osu-cs340-ecampus/flask-starter-app?tab=readme-ov-file
 
 from flask import Flask, render_template, json, request, redirect, flash
 from flask_mysqldb import MySQL
