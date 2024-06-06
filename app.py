@@ -207,7 +207,7 @@ def delete_customer(id):
 #ORDERS
 @app.route('/orders', methods=["GET"])
 def orders():
-    query = "SELECT Orders.ID AS OrderID, Date(Orders.Date), Orders.CID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS CustomerName FROM Orders INNER JOIN Customers ON Orders.CID = Customers.ID ORDER BY OrderID asc"
+    query = "SELECT Orders.ID AS OrderID, Date(Orders.Date), Orders.CID, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS CustomerName FROM Orders LEFT JOIN Customers ON Orders.CID = Customers.ID ORDER BY OrderID asc"
     cur = mysql.connection.cursor()
     cur.execute(query)
     data = cur.fetchall()
@@ -225,9 +225,9 @@ def create_orders():
 
     query = f"INSERT INTO Orders (Date, CID) VALUES ('{date}', '{CID}');"
 
-    if CID == "0":
-        return redirect("/orders")
-    
+    if str(CID) == "0":
+        query = f"INSERT INTO Orders (Date, CID) VALUES ('{date}', NULL);"
+
     try:
         curs = mysql.connection.cursor()
         curs.execute(query)
