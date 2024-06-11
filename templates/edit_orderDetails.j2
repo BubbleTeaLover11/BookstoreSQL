@@ -63,7 +63,15 @@
                 {% endfor %} 
             </select>	                    
             <label for="model">Order ID:</label>
-            <input type="text" value="{{data[0].OID}}" class="form-control" id="OID" name="OID" pattern="[A-Za-z0-9]{1,}" required>
+            <select class="form-control" id="OID" name="OID" required> 
+                <option value="0">&nbsp;</option>
+                {% for id in oid %}
+                    {% if id['ID'] == data[0].OID %}
+                        <option value="{{id['ID'] }}" selected>{{id['ID']}}</option>
+                    {% else %}
+                        <option value="{{id['ID'] }}">{{id['ID']}}</option>
+                    {% endif %}
+                {% endfor %}
             <label for="color">OrderQty:</label>
             <input type="text" value="{{data[0].OrderQty}}" class="form-control" id="OrderQty" name="OrderQty" pattern="[A-Za-z0-9]{1,}"> 
 
